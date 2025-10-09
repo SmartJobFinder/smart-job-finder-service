@@ -35,3 +35,11 @@ out/
 
 ### VS Code ###
 .vscode/
+.vs/
+
+### environment ###
+.env.local.properties
+
+### google calendar api ###
+*.gserviceaccount.com-*.json
+src/main/resources/google/*.json
