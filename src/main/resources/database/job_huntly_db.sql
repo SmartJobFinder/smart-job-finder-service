@@ -561,18 +561,18 @@ DROP TABLE IF EXISTS `saved_job`;
 
 -- 1) Tạo bảng mới với cấu trúc mong muốn
 CREATE TABLE `saved_job` (
-  `save_job_id` INT NOT NULL AUTO_INCREMENT,
-  `user_id`     INT NOT NULL,
-  `job_id`      INT NOT NULL,
-  `created_at`  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`save_job_id`),
+                             `save_job_id` INT NOT NULL AUTO_INCREMENT,
+                             `user_id`     INT NOT NULL,
+                             `job_id`      INT NOT NULL,
+                             `created_at`  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                             PRIMARY KEY (`save_job_id`),
 
-  CONSTRAINT `fk_saved_job_user`
-    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-    ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `fk_saved_job_job`
-    FOREIGN KEY (`job_id`) REFERENCES `jobs` (`job_id`)
-    ON DELETE RESTRICT ON UPDATE CASCADE
+                             CONSTRAINT `fk_saved_job_user`
+                                 FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+                                     ON DELETE RESTRICT ON UPDATE CASCADE,
+                             CONSTRAINT `fk_saved_job_job`
+                                 FOREIGN KEY (`job_id`) REFERENCES `jobs` (`job_id`)
+                                     ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- edit database by VHP --
@@ -600,8 +600,8 @@ ALTER TABLE certificates
 
 -- Thêm awards nếu cần (5 sections: edu, experience, cert, awards, skills)
 CREATE TABLE IF NOT EXISTS awards (
-    award_id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(200) NULL,
+                                      award_id INT NOT NULL AUTO_INCREMENT,
+                                      name VARCHAR(200) NULL,
     issuer VARCHAR(200) NULL,
     date DATE NULL,
     description VARCHAR(200) NULL,
@@ -609,128 +609,128 @@ CREATE TABLE IF NOT EXISTS awards (
     PRIMARY KEY (award_id),
     FOREIGN KEY (profile_id) REFERENCES candidate_profile(profile_id) ON DELETE CASCADE ON UPDATE CASCADE,
     INDEX idx_profile_id (profile_id)
-);
+    );
 -- sẽ có 2 skill là core skill và soft skill cho candidate
 -- skill hiện tại sẽ là core skill, soft skill sẽ là bảng riêng cho phép nhập từ phía người dùng
 DROP TABLE IF EXISTS candidate_skill;
 -- core skill 
 CREATE TABLE candidate_skill (
-    skill_id   INT NOT NULL,
-    profile_id INT NOT NULL,
-    level_id   INT NULL,
-    PRIMARY KEY (skill_id, profile_id),
-    FOREIGN KEY (skill_id) REFERENCES skills(skill_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (profile_id) REFERENCES candidate_profile(profile_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (level_id) REFERENCES levels(level_id) ON DELETE SET NULL ON UPDATE CASCADE
+                                 skill_id   INT NOT NULL,
+                                 profile_id INT NOT NULL,
+                                 level_id   INT NULL,
+                                 PRIMARY KEY (skill_id, profile_id),
+                                 FOREIGN KEY (skill_id) REFERENCES skills(skill_id) ON DELETE CASCADE ON UPDATE CASCADE,
+                                 FOREIGN KEY (profile_id) REFERENCES candidate_profile(profile_id) ON DELETE CASCADE ON UPDATE CASCADE,
+                                 FOREIGN KEY (level_id) REFERENCES levels(level_id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 -- soft skill
 CREATE TABLE soft_skills (
-    soft_skill_id INT NOT NULL AUTO_INCREMENT,
-    profile_id INT NOT NULL,
-    name VARCHAR(200) NOT NULL,
-    description VARCHAR(255) NULL,
-    level ENUM('Low','Medium','High') NULL,
-    PRIMARY KEY (soft_skill_id),
-    FOREIGN KEY (profile_id) REFERENCES candidate_profile(profile_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    INDEX idx_profile_id (profile_id)
+                             soft_skill_id INT NOT NULL AUTO_INCREMENT,
+                             profile_id INT NOT NULL,
+                             name VARCHAR(200) NOT NULL,
+                             description VARCHAR(255) NULL,
+                             level ENUM('Low','Medium','High') NULL,
+                             PRIMARY KEY (soft_skill_id),
+                             FOREIGN KEY (profile_id) REFERENCES candidate_profile(profile_id) ON DELETE CASCADE ON UPDATE CASCADE,
+                             INDEX idx_profile_id (profile_id)
 );
 
 DROP TABLE IF EXISTS candidate_skill;
 
 CREATE TABLE candidate_skill (
-    candidate_skill_id INT NOT NULL AUTO_INCREMENT,
-    skill_id   INT NOT NULL,
-    profile_id INT NOT NULL,
-    level_id   INT NULL,
-    PRIMARY KEY (candidate_skill_id),
-    UNIQUE KEY unique_profile_skill (skill_id, profile_id),
-    FOREIGN KEY (skill_id) REFERENCES skills(skill_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (profile_id) REFERENCES candidate_profile(profile_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (level_id) REFERENCES levels(level_id) ON DELETE SET NULL ON UPDATE CASCADE
+                                 candidate_skill_id INT NOT NULL AUTO_INCREMENT,
+                                 skill_id   INT NOT NULL,
+                                 profile_id INT NOT NULL,
+                                 level_id   INT NULL,
+                                 PRIMARY KEY (candidate_skill_id),
+                                 UNIQUE KEY unique_profile_skill (skill_id, profile_id),
+                                 FOREIGN KEY (skill_id) REFERENCES skills(skill_id) ON DELETE CASCADE ON UPDATE CASCADE,
+                                 FOREIGN KEY (profile_id) REFERENCES candidate_profile(profile_id) ON DELETE CASCADE ON UPDATE CASCADE,
+                                 FOREIGN KEY (level_id) REFERENCES levels(level_id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 ALTER TABLE `candidate_profile`
-    DROP COLUMN `fullname`;
+DROP COLUMN `fullname`;
 
 CREATE TABLE cv_template (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    html_url VARCHAR(500) NOT NULL,
-    preview_image_url VARCHAR(500) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                             id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                             name VARCHAR(255) NOT NULL,
+                             html_url VARCHAR(500) NOT NULL,
+                             preview_image_url VARCHAR(500) NOT NULL,
+                             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 ALTER TABLE users
     ADD COLUMN activation_token_expires_at DATETIME NULL;
 
 ALTER TABLE companies
-  ADD COLUMN vip_until DATETIME NULL,
+    ADD COLUMN vip_until DATETIME NULL,
   ADD INDEX idx_companies_vip_until (vip_until);
 
 ALTER TABLE companies ADD COLUMN is_vip TINYINT(1) NOT NULL DEFAULT 0;
 
 -- 1) Gói VIP (có thể thêm gói 3/6/12 tháng sau này)
 CREATE TABLE IF NOT EXISTS packages (
-  package_id     BIGINT PRIMARY KEY AUTO_INCREMENT,
-  code           VARCHAR(50) UNIQUE NOT NULL,      -- 'VIP_1M'
-  name           VARCHAR(120) NOT NULL,            -- 'VIP 1 Month'
-  type           VARCHAR(50) DEFAULT 'VIP',
-  duration_days  INT NOT NULL DEFAULT 30,
-  price_vnd      BIGINT NOT NULL,
-  is_active      TINYINT(1) NOT NULL DEFAULT 1,
-  created_at     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+                                        package_id     BIGINT PRIMARY KEY AUTO_INCREMENT,
+                                        code           VARCHAR(50) UNIQUE NOT NULL,      -- 'VIP_1M'
+    name           VARCHAR(120) NOT NULL,            -- 'VIP 1 Month'
+    type           VARCHAR(50) DEFAULT 'VIP',
+    duration_days  INT NOT NULL DEFAULT 30,
+    price_vnd      BIGINT NOT NULL,
+    is_active      TINYINT(1) NOT NULL DEFAULT 1,
+    created_at     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    );
 
 -- 2) Lịch sử thanh toán (đa cổng: VNPay, MoMo...)
 CREATE TABLE IF NOT EXISTS payments (
-  payment_id        BIGINT PRIMARY KEY AUTO_INCREMENT,
-  company_id        BIGINT NOT NULL,
-  package_id        BIGINT NULL,
-  amount_vnd        BIGINT NOT NULL,
-  currency          CHAR(3) NOT NULL DEFAULT 'VND',
-  status            ENUM('PENDING','REQUIRES_ACTION','PAID','FAILED','REFUNDED','PARTIALLY_REFUNDED','CHARGEBACK') NOT NULL DEFAULT 'PENDING',
-  provider          VARCHAR(32) NOT NULL,          -- 'VNPAY','MOMO',...
-  method            VARCHAR(32) NULL,              -- 'QR','WALLET',...
-  txn_ref           VARCHAR(64) NOT NULL,          -- idempotency key nội bộ
-  provider_txn      VARCHAR(128) NULL,             -- transactionNo/transId
-  provider_order_id VARCHAR(128) NULL,             -- orderId của provider nếu có
-  metadata_json     JSON NULL,
-  paid_at           DATETIME NULL,
-  created_at        DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at        DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  UNIQUE KEY uq_txn_ref (txn_ref),
-  UNIQUE KEY uq_provider_txn (provider, provider_txn),
-  KEY idx_company_created (company_id, created_at)
-);
+                                        payment_id        BIGINT PRIMARY KEY AUTO_INCREMENT,
+                                        company_id        BIGINT NOT NULL,
+                                        package_id        BIGINT NULL,
+                                        amount_vnd        BIGINT NOT NULL,
+                                        currency          CHAR(3) NOT NULL DEFAULT 'VND',
+    status            ENUM('PENDING','REQUIRES_ACTION','PAID','FAILED','REFUNDED','PARTIALLY_REFUNDED','CHARGEBACK') NOT NULL DEFAULT 'PENDING',
+    provider          VARCHAR(32) NOT NULL,          -- 'VNPAY','MOMO',...
+    method            VARCHAR(32) NULL,              -- 'QR','WALLET',...
+    txn_ref           VARCHAR(64) NOT NULL,          -- idempotency key nội bộ
+    provider_txn      VARCHAR(128) NULL,             -- transactionNo/transId
+    provider_order_id VARCHAR(128) NULL,             -- orderId của provider nếu có
+    metadata_json     JSON NULL,
+    paid_at           DATETIME NULL,
+    created_at        DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at        DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY uq_txn_ref (txn_ref),
+    UNIQUE KEY uq_provider_txn (provider, provider_txn),
+    KEY idx_company_created (company_id, created_at)
+    );
 
 -- 3) Subscription VIP theo thời hạn
 CREATE TABLE IF NOT EXISTS company_subscriptions (
-  subscription_id   BIGINT PRIMARY KEY AUTO_INCREMENT,
-  company_id        BIGINT NOT NULL,
-  package_id        BIGINT NOT NULL,
-  status            ENUM('ACTIVE','EXPIRED','CANCELLED') NOT NULL,
-  start_at          DATETIME NOT NULL,
-  end_at            DATETIME NOT NULL,
-  latest_payment_id BIGINT NULL,
-  created_at        DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at        DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  KEY idx_company_end (company_id, end_at)
-);
+                                                     subscription_id   BIGINT PRIMARY KEY AUTO_INCREMENT,
+                                                     company_id        BIGINT NOT NULL,
+                                                     package_id        BIGINT NOT NULL,
+                                                     status            ENUM('ACTIVE','EXPIRED','CANCELLED') NOT NULL,
+    start_at          DATETIME NOT NULL,
+    end_at            DATETIME NOT NULL,
+    latest_payment_id BIGINT NULL,
+    created_at        DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at        DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    KEY idx_company_end (company_id, end_at)
+    );
 
 INSERT INTO packages (code, name, type, duration_days, price_vnd, is_active)
 VALUES ('VIP_1M', 'VIP 1 Month', 'VIP', 30, 100000, 1)
-ON DUPLICATE KEY UPDATE name=VALUES(name), duration_days=VALUES(duration_days), price_vnd=VALUES(price_vnd), is_active=VALUES(is_active);
+    ON DUPLICATE KEY UPDATE name=VALUES(name), duration_days=VALUES(duration_days), price_vnd=VALUES(price_vnd), is_active=VALUES(is_active);
 
-ALTER TABLE "applications"
-  ADD COLUMN "attempt_count" INT NOT NULL DEFAULT 1 AFTER "status",
-  ADD COLUMN "last_user_action_at" DATETIME NULL AFTER "attempt_count";
+ALTER TABLE `applications`
+    ADD COLUMN `attempt_count` INT NOT NULL DEFAULT 1 AFTER `status`,
+  ADD COLUMN `last_user_action_at` DATETIME NULL AFTER `attempt_count`;
 
 
 CREATE TABLE IF NOT EXISTS `tickets` (
-     `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
-     `subject` VARCHAR(500),
+                                         `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+                                         `subject` VARCHAR(500),
     `from_email` VARCHAR(320) NOT NULL,
     `customer_email` VARCHAR(254),
     `thread_id` VARCHAR(512) NOT NULL,
@@ -745,9 +745,9 @@ CREATE TABLE IF NOT EXISTS `tickets` (
 
 
 CREATE TABLE IF NOT EXISTS `ticket_messages` (
-     `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
-     `ticket_id` BIGINT NOT NULL,
-     `message_id` VARCHAR(512) NOT NULL,
+                                                 `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+                                                 `ticket_id` BIGINT NOT NULL,
+                                                 `message_id` VARCHAR(512) NOT NULL,
     `in_reply_to` VARCHAR(512),
     `from_email` VARCHAR(320) NOT NULL,
     `sent_at` TIMESTAMP(6) NULL DEFAULT CURRENT_TIMESTAMP(6),
@@ -768,26 +768,26 @@ CREATE TABLE IF NOT EXISTS `ticket_messages` (
 
 
 CREATE TABLE IF NOT EXISTS `ticket_message_attachments` (
-  `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
-  `ticket_message_id` BIGINT NOT NULL,
-  `filename` VARCHAR(512),
-  `content_type` VARCHAR(255),
-  `size_bytes` BIGINT,
-  `content_id` VARCHAR(512),
-  `inline` TINYINT(1) NOT NULL DEFAULT 0,
-  `storage_provider` VARCHAR(50) NOT NULL DEFAULT 'CLOUDINARY',
-  `storage_public_id` VARCHAR(512),
-  `storage_url` VARCHAR(1000),
-  `created_at` TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+                                                            `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+                                                            `ticket_message_id` BIGINT NOT NULL,
+                                                            `filename` VARCHAR(512),
+    `content_type` VARCHAR(255),
+    `size_bytes` BIGINT,
+    `content_id` VARCHAR(512),
+    `inline` TINYINT(1) NOT NULL DEFAULT 0,
+    `storage_provider` VARCHAR(50) NOT NULL DEFAULT 'CLOUDINARY',
+    `storage_public_id` VARCHAR(512),
+    `storage_url` VARCHAR(1000),
+    `created_at` TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
 
-  CONSTRAINT `fk_tma_msg`
+    CONSTRAINT `fk_tma_msg`
     FOREIGN KEY (`ticket_message_id`) REFERENCES `ticket_messages`(`id`)
     ON DELETE CASCADE,
 
-  KEY `ix_tma_msg` (`ticket_message_id`),
-  KEY `ix_tma_cid` (`content_id`),
-  KEY `ix_tma_inline` (`inline`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    KEY `ix_tma_msg` (`ticket_message_id`),
+    KEY `ix_tma_cid` (`content_id`),
+    KEY `ix_tma_inline` (`inline`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 ALTER TABLE users
     ADD COLUMN auth_provider VARCHAR(20) NULL AFTER google_id,
@@ -806,69 +806,69 @@ CREATE INDEX idx_users_pwdtoken_purpose_hash
 
 
 drop table follows;
- CREATE TABLE `follows` (
-   `follow_id` INT NOT NULL AUTO_INCREMENT,
-   `user_id` INT NOT NULL,
-   `company_id` INT NOT NULL,
-   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   PRIMARY KEY (`follow_id`),
-   KEY `fk_follows_user` (`user_id`),
-   KEY `fk_follows_company` (`company_id`),
-   CONSTRAINT `fk_follows_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-   CONSTRAINT `fk_follows_company` FOREIGN KEY (`company_id`) REFERENCES `companies` (`company_id`) ON DELETE RESTRICT ON UPDATE CASCADE
- );
+CREATE TABLE `follows` (
+                           `follow_id` INT NOT NULL AUTO_INCREMENT,
+                           `user_id` INT NOT NULL,
+                           `company_id` INT NOT NULL,
+                           `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                           PRIMARY KEY (`follow_id`),
+                           KEY `fk_follows_user` (`user_id`),
+                           KEY `fk_follows_company` (`company_id`),
+                           CONSTRAINT `fk_follows_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+                           CONSTRAINT `fk_follows_company` FOREIGN KEY (`company_id`) REFERENCES `companies` (`company_id`) ON DELETE RESTRICT ON UPDATE CASCADE
+);
 
 
 CREATE TABLE IF NOT EXISTS user_sessions (
-  session_id              int PRIMARY KEY AUTO_INCREMENT,
-  user_id                 int NOT NULL,
-  session_family_id       CHAR(36) NOT NULL,
-  parent_session_id       int NULL,
-  replaced_by_session_id  int NULL,
-  refresh_token_hash      CHAR(64) NOT NULL,
-  refresh_expires_at      DATETIME(3) NOT NULL,
-  created_at              DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-  last_seen_at            DATETIME(3) NULL,
-  revoked_at              DATETIME(3) NULL,
-  reuse_detected_at       DATETIME(3) NULL,
-  ip_address              VARCHAR(45) NULL,
-  user_agent              VARCHAR(255) NULL,
-  device_label            VARCHAR(100) NULL,
+                                             session_id              int PRIMARY KEY AUTO_INCREMENT,
+                                             user_id                 int NOT NULL,
+                                             session_family_id       CHAR(36) NOT NULL,
+    parent_session_id       int NULL,
+    replaced_by_session_id  int NULL,
+    refresh_token_hash      CHAR(64) NOT NULL,
+    refresh_expires_at      DATETIME(3) NOT NULL,
+    created_at              DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    last_seen_at            DATETIME(3) NULL,
+    revoked_at              DATETIME(3) NULL,
+    reuse_detected_at       DATETIME(3) NULL,
+    ip_address              VARCHAR(45) NULL,
+    user_agent              VARCHAR(255) NULL,
+    device_label            VARCHAR(100) NULL,
 
-  CONSTRAINT fk_sessions_user
+    CONSTRAINT fk_sessions_user
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     ON DELETE CASCADE,
-  CONSTRAINT fk_sessions_parent
+    CONSTRAINT fk_sessions_parent
     FOREIGN KEY (parent_session_id) REFERENCES user_sessions(session_id)
     ON DELETE SET NULL,
-  CONSTRAINT fk_sessions_replaced_by
+    CONSTRAINT fk_sessions_replaced_by
     FOREIGN KEY (replaced_by_session_id) REFERENCES user_sessions(session_id)
     ON DELETE SET NULL,
 
-  UNIQUE KEY ux_refresh_hash (refresh_token_hash),
-  KEY idx_user (user_id),
-  KEY idx_family (session_family_id),
-  KEY idx_expires (refresh_expires_at),
-  KEY idx_revoked (revoked_at)
-);
+    UNIQUE KEY ux_refresh_hash (refresh_token_hash),
+    KEY idx_user (user_id),
+    KEY idx_family (session_family_id),
+    KEY idx_expires (refresh_expires_at),
+    KEY idx_revoked (revoked_at)
+    );
 
 CREATE TABLE IF NOT EXISTS user_one_time_tokens (
-  token_id      int PRIMARY KEY AUTO_INCREMENT,
-  user_id       int NOT NULL,
-  purpose       ENUM('ACTIVATION','SET_PASSWORD','RESET_PASSWORD','EMAIL_CHANGE') NOT NULL,
-  token_hash    CHAR(64) NOT NULL,
-  expires_at    DATETIME(3) NOT NULL,
-  consumed_at   DATETIME(3) NULL,
-  created_at    DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+                                                    token_id      int PRIMARY KEY AUTO_INCREMENT,
+                                                    user_id       int NOT NULL,
+                                                    purpose       ENUM('ACTIVATION','SET_PASSWORD','RESET_PASSWORD','EMAIL_CHANGE') NOT NULL,
+    token_hash    CHAR(64) NOT NULL,
+    expires_at    DATETIME(3) NOT NULL,
+    consumed_at   DATETIME(3) NULL,
+    created_at    DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
-  CONSTRAINT fk_ott_user
+    CONSTRAINT fk_ott_user
     FOREIGN KEY (user_id) REFERENCES users(user_id)
     ON DELETE CASCADE,
 
-  UNIQUE KEY ux_purpose_hash (purpose, token_hash),
-  KEY idx_user_purpose (user_id, purpose),
-  KEY idx_expires (expires_at)
-);
+    UNIQUE KEY ux_purpose_hash (purpose, token_hash),
+    KEY idx_user_purpose (user_id, purpose),
+    KEY idx_expires (expires_at)
+    );
 
 ALTER TABLE users
 DROP COLUMN activation_token,
@@ -883,62 +883,62 @@ ALTER TABLE users
   ADD COLUMN last_login_at DATETIME(3) NULL,
   ADD COLUMN password_changed_at DATETIME(3) NULL;
 
- CREATE TABLE notifications (
-     notification_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-     user_id INT NOT NULL,
-     type VARCHAR(50) NOT NULL,                -- "APPLICATION_STATUS", "NEW_JOB", ...
-     title VARCHAR(200) NOT NULL,
-     message TEXT NOT NULL,
-     link VARCHAR(255) DEFAULT NULL,           -- có thể NULL nếu bạn chưa cần
-     company_id BIGINT DEFAULT NULL,
-     job_id BIGINT DEFAULT NULL,
-     application_id BIGINT DEFAULT NULL,
-     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-     read_at TIMESTAMP NULL DEFAULT NULL,
+CREATE TABLE notifications (
+                               notification_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                               user_id INT NOT NULL,
+                               type VARCHAR(50) NOT NULL,                -- "APPLICATION_STATUS", "NEW_JOB", ...
+                               title VARCHAR(200) NOT NULL,
+                               message TEXT NOT NULL,
+                               link VARCHAR(255) DEFAULT NULL,           -- có thể NULL nếu bạn chưa cần
+                               company_id BIGINT DEFAULT NULL,
+                               job_id BIGINT DEFAULT NULL,
+                               application_id BIGINT DEFAULT NULL,
+                               created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                               read_at TIMESTAMP NULL DEFAULT NULL,
 
-     CONSTRAINT fk_notifications_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-     INDEX idx_user_created (user_id, created_at DESC),
-     INDEX idx_company (company_id),
-     INDEX idx_job (job_id)
- );
+                               CONSTRAINT fk_notifications_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+                               INDEX idx_user_created (user_id, created_at DESC),
+                               INDEX idx_company (company_id),
+                               INDEX idx_job (job_id)
+);
 
 -- calendar_events interviews table
 CREATE TABLE IF NOT EXISTS interviews (
-  interview_id      INT AUTO_INCREMENT PRIMARY KEY,
-  job_id            INT NOT NULL,
-  company_id        INT NOT NULL,              -- recruiter: công ty tạo lịch
-  candidate_id      INT NOT NULL,              -- user ứng viên
-  scheduled_at      DATETIME NOT NULL,
-  duration_minutes  INT NOT NULL DEFAULT 60,
-  status            ENUM('PENDING','ACCEPTED','DECLINED','COMPLETED','CANCELLED') DEFAULT 'PENDING',
-  meeting_url       VARCHAR(500) NULL,
-  gcal_event_id     VARCHAR(128) NULL,
-  reminder_sent     TINYINT(1) NOT NULL DEFAULT 0,
-  created_at        DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at        DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                          interview_id      INT AUTO_INCREMENT PRIMARY KEY,
+                                          job_id            INT NOT NULL,
+                                          company_id        INT NOT NULL,              -- recruiter: công ty tạo lịch
+                                          candidate_id      INT NOT NULL,              -- user ứng viên
+                                          scheduled_at      DATETIME NOT NULL,
+                                          duration_minutes  INT NOT NULL DEFAULT 60,
+                                          status            ENUM('PENDING','ACCEPTED','DECLINED','COMPLETED','CANCELLED') DEFAULT 'PENDING',
+    meeting_url       VARCHAR(500) NULL,
+    gcal_event_id     VARCHAR(128) NULL,
+    reminder_sent     TINYINT(1) NOT NULL DEFAULT 0,
+    created_at        DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at        DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-  -- FK khớp cấu trúc hiện tại
-  CONSTRAINT fk_interviews_job
+    -- FK khớp cấu trúc hiện tại
+    CONSTRAINT fk_interviews_job
     FOREIGN KEY (job_id) REFERENCES jobs(job_id)
-    ON DELETE CASCADE ON UPDATE CASCADE,
+                                                                  ON DELETE CASCADE ON UPDATE CASCADE,
 
-  CONSTRAINT fk_interviews_company
+    CONSTRAINT fk_interviews_company
     FOREIGN KEY (company_id) REFERENCES companies(company_id)
-    ON DELETE RESTRICT ON UPDATE CASCADE,
+                                                                  ON DELETE RESTRICT ON UPDATE CASCADE,
 
-  CONSTRAINT fk_interviews_candidate
+    CONSTRAINT fk_interviews_candidate
     FOREIGN KEY (candidate_id) REFERENCES users(user_id)
-    ON DELETE RESTRICT ON UPDATE CASCADE,
+                                                                  ON DELETE RESTRICT ON UPDATE CASCADE,
 
-  -- Index phục vụ truy vấn phổ biến
-  INDEX idx_interviews_scheduled_at (scheduled_at),
-  INDEX idx_interviews_company      (company_id),
-  INDEX idx_interviews_candidate    (candidate_id),
-  INDEX idx_interviews_job          (job_id),
+    -- Index phục vụ truy vấn phổ biến
+    INDEX idx_interviews_scheduled_at (scheduled_at),
+    INDEX idx_interviews_company      (company_id),
+    INDEX idx_interviews_candidate    (candidate_id),
+    INDEX idx_interviews_job          (job_id),
 
-  -- Tránh tạo trùng event nếu cần
-  UNIQUE KEY uq_interviews_gcal_event (gcal_event_id)
-);
+    -- Tránh tạo trùng event nếu cần
+    UNIQUE KEY uq_interviews_gcal_event (gcal_event_id)
+    );
 
 ALTER TABLE interviews
-  ADD COLUMN meeting_room VARCHAR(255) NULL;
+    ADD COLUMN meeting_room VARCHAR(255) NULL;
