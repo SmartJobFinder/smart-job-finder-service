@@ -3,6 +3,7 @@ package com.jobhuntly.backend.entity;
 import com.jobhuntly.backend.entity.enums.ReportType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -35,8 +36,8 @@ public class Report {
             this.status = "PROCESS";
         }
     }
-
-    @Column(name = "create_at", insertable = false, updatable = false)
+    @CreationTimestamp
+    @Column(name = "create_at", updatable = false)
     private LocalDateTime createdAt;
 
     @ManyToOne

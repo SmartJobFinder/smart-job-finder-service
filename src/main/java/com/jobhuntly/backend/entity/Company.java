@@ -2,6 +2,8 @@ package com.jobhuntly.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.OffsetDateTime;
 import java.util.HashSet;
@@ -78,6 +80,14 @@ public class Company {
 
     @Column(name = "avatar_cover")
     private String avatarCover;
+
+    @Column(name = "created_at", updatable = false, insertable = false)
+    @CreationTimestamp
+    private OffsetDateTime createdAt;
+
+    @Column(name = "updated_at", insertable = false)
+    @UpdateTimestamp
+    private OffsetDateTime updatedAt;
 
     @Column(name = "vip_until")
     private OffsetDateTime vipUntil;
