@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: mysql
--- Thời gian đã tạo: Th10 31, 2025 lúc 10:40 AM
--- Phiên bản máy phục vụ: 9.2.0
+-- Thời gian đã tạo: Th10 31, 2025 lúc 06:23 PM
+-- Phiên bản máy phục vụ: 9.5.0
 -- Phiên bản PHP: 8.2.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -109,7 +109,7 @@ INSERT INTO `candidate_profile` (`user_id`, `profile_id`, `gender`, `avatar`, `a
 (6, 4, 'Male', 'avatar_candidate3.jpg', 'Giáo viên tiếng Anh nhiệt huyết, IELTS 7.5', NULL, '1997-05-10', 'English Teacher'),
 (7, 5, 'Female', 'avatar_candidate4.jpg', 'Nhà thiết kế đồ họa sáng tạo, yêu thích thời trang', NULL, '2000-11-25', 'Graphic Designer'),
 (10, 6, 'Male', 'avatar_candidate5.jpg', 'Kỹ sư sản xuất với 5 năm kinh nghiệm', NULL, '1995-09-08', 'Production Engineer'),
-(12, 7, 'Other', '', '', '', NULL, '');
+(12, 7, 'Other', 'https://res.cloudinary.com/drozptref/image/upload/v1761934695/users/12/avatar.png', '', '', NULL, '');
 
 -- --------------------------------------------------------
 
@@ -272,10 +272,10 @@ CREATE TABLE `companies` (
 
 INSERT INTO `companies` (`company_id`, `user_id`, `company_name`, `description`, `email`, `phone_number`, `website`, `address`, `location_city`, `location_country`, `founded_year`, `quantity_employee`, `status`, `is_pro_company`, `followers_count`, `jobs_count`, `facebook_url`, `twitter_url`, `linkedin_url`, `map_embed_url`, `avatar`, `avatar_cover`, `created_at`, `updated_at`, `vip_until`, `is_vip`) VALUES
 (1, 4, 'AI Tech', 'Công ty công nghệ chuyên AI', 'contact@aitech.com', '0123456789', 'https://aitech.com', '12 Lý Thường Kiệt', 'Hồ Chí Minh', 'Phú Hòa Đông', '2018', 80, 'active', 1, 2, 1, 'https://facebook.com/aitech', NULL, 'https://linkedin.com/company/aitech', 'https://www.google.com/maps/embed/v1/place?key=AIzaSyCVgO8KzHQ8iKcfqXgrMnUIGlD-piWiPpo&q=123%20Silicon%20Valley%2C%20California%2C%20USA&zoom=15&language=vi', 'https://mir-s3-cdn-cf.behance.net/user/276/d87edf482640497.5e306b1f7af1c.jpg', 'https://www.shutterstock.com/image-vector/synthwave-vaporwave-retrowave-cyber-background-600nw-1457569313.jpg', '2025-10-28 15:01:54', '2025-10-30 16:20:56', '2026-01-01 14:30:00', 1),
-(2, 8, 'ERP Việt Nam', 'Công ty phần mềm ERP', 'info@erpvn.com', '0909888777', 'https://erpvn.com', '45 Nguyễn Huệ', 'Hà Nội', 'Tây Hồ', '2015', 150, 'active', 0, 2, 2, NULL, NULL, NULL, NULL, 'erp_avatar.png', 'erp_cover.png', '2025-10-29 15:01:54', '2025-10-31 08:00:37', NULL, 0),
-(3, 9, 'Fashion Hub', 'Công ty thiết kế thời trang', 'contact@fashionhub.com', '0988111222', 'https://fashionhub.com', '89 Hai Bà Trưng', 'Đà Nẵng', 'Hội An', '2020', 60, 'active', 1, 2, 3, NULL, NULL, NULL, NULL, 'fashion_avatar.png', 'fashion_cover.png', '2025-10-30 15:01:54', '2025-10-31 08:00:43', NULL, 0),
-(4, 5, 'Global Logistics', 'Công ty logistics quốc tế', 'support@globallogistics.com', '0933444555', 'https://globallogistics.com', '123 Trần Hưng Đạo', 'Hải Phòng', 'Chí Linh', '2010', 300, 'active', 0, 2, 2, NULL, NULL, NULL, NULL, 'log_avatar.png', 'log_cover.png', '2025-10-27 15:01:54', '2025-10-31 08:00:50', NULL, 0),
-(5, 15, 'E-Learning VN', 'Công ty giáo dục trực tuyến', 'info@elearning.vn', '0944666777', 'https://elearning.vn', '78 Cách Mạng Tháng 8', 'Cần Thơ', 'Ninh Kiều', '2017', 40, 'active', 0, 2, 2, NULL, NULL, NULL, NULL, 'edu_avatar.png', 'edu_cover.png', '2025-10-31 15:01:54', '2025-10-31 08:00:56', NULL, 0);
+(2, 8, 'ERP Việt Nam', 'Công ty phần mềm ERP', 'info@erpvn.com', '0909888777', 'https://erpvn.com', '45 Nguyễn Huệ', 'Hà Nội', 'Tây Hồ', '2015', 150, 'active', 0, 2, 2, NULL, NULL, NULL, NULL, 'https://www.ecount.com/vn/common/images/trial/phan-mem-erp-la-gi/phan-mem-erp-la-gi.png?ver=2025060401', 'https://bom.so/U95G2O', '2025-10-29 15:01:54', '2025-10-31 18:14:05', NULL, 0),
+(3, 9, 'Fashion Hub', 'Công ty thiết kế thời trang', 'contact@fashionhub.com', '0988111222', 'https://fashionhub.com', '89 Hai Bà Trưng', 'Đà Nẵng', 'Hội An', '2020', 60, 'active', 1, 2, 3, NULL, NULL, NULL, NULL, 'https://lh3.googleusercontent.com/sitesv/AAzXCkfVkXVh-TUYk2Gy6QXXPMAInX1JRk_ac02nbievYn5rQ6YSBa0A1eDyjwVTZam65LHcFvM5vFxYz_QlvQrAJAmEsyWhQCspq7eCptUlGZfNZs7sJJF9wx0egJpQXTARUgMH-gvcqadv2pZd__BmDmI_AJU1A6NQ2emgs1Cy6fNpoxoQ722BODM-3Kg=w16383', 'https://bom.so/U95G2O', '2025-10-30 15:01:54', '2025-10-31 18:14:11', NULL, 0),
+(4, 5, 'Global Logistics', 'Công ty logistics quốc tế', 'support@globallogistics.com', '0933444555', 'https://globallogistics.com', '123 Trần Hưng Đạo', 'Hải Phòng', 'Chí Linh', '2010', 300, 'active', 0, 2, 2, NULL, NULL, NULL, NULL, 'https://globallogisticservice.com/uploads/logogls.png', 'https://bom.so/U95G2O', '2025-10-27 15:01:54', '2025-10-31 18:14:13', NULL, 0),
+(5, 15, 'E-Learning VN', 'Công ty giáo dục trực tuyến', 'info@elearning.vn', '0944666777', 'https://elearning.com', '78 Cách Mạng Tháng 8', 'Cần Thơ', 'Ninh Kiều', '2017', 40, 'active', 0, 2, 2, NULL, NULL, NULL, NULL, 'https://media.istockphoto.com/id/607929972/vi/vec-to/logo-e-learning-vector.jpg?s=612x612&w=0&k=20&c=8IDWTGo2MIYYTyoUAXE6BugCPLhUamMlQT64R-39bEw=', 'https://bom.so/U95G2O', '2025-10-31 15:01:54', '2025-10-31 18:14:15', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -351,16 +351,7 @@ CREATE TABLE `cv_template` (
 --
 
 INSERT INTO `cv_template` (`id`, `name`, `html_url`, `preview_image_url`, `created_at`, `updated_at`) VALUES
-(1, 'Modern Professional', 'https://templates.jobhuntly.com/cv/modern-professional.html', 'https://templates.jobhuntly.com/previews/modern-professional.jpg', '2025-10-29 13:40:41', '2025-10-29 13:40:41'),
-(2, 'Creative Designer', 'https://templates.jobhuntly.com/cv/creative-designer.html', 'https://templates.jobhuntly.com/previews/creative-designer.jpg', '2025-10-29 13:40:41', '2025-10-29 13:40:41'),
-(3, 'Tech Minimalist', 'https://templates.jobhuntly.com/cv/tech-minimalist.html', 'https://templates.jobhuntly.com/previews/tech-minimalist.jpg', '2025-10-29 13:40:41', '2025-10-29 13:40:41'),
-(4, 'Executive Classic', 'https://templates.jobhuntly.com/cv/executive-classic.html', 'https://templates.jobhuntly.com/previews/executive-classic.jpg', '2025-10-29 13:40:41', '2025-10-29 13:40:41'),
-(5, 'Fresh Graduate', 'https://templates.jobhuntly.com/cv/fresh-graduate.html', 'https://templates.jobhuntly.com/previews/fresh-graduate.jpg', '2025-10-29 13:40:41', '2025-10-29 13:40:41'),
-(6, 'Modern Professional', 'https://templates.jobhuntly.com/cv/modern-professional.html', 'https://templates.jobhuntly.com/previews/modern-professional.jpg', '2025-10-29 13:40:52', '2025-10-29 13:40:52'),
-(7, 'Creative Designer', 'https://templates.jobhuntly.com/cv/creative-designer.html', 'https://templates.jobhuntly.com/previews/creative-designer.jpg', '2025-10-29 13:40:52', '2025-10-29 13:40:52'),
-(8, 'Tech Minimalist', 'https://templates.jobhuntly.com/cv/tech-minimalist.html', 'https://templates.jobhuntly.com/previews/tech-minimalist.jpg', '2025-10-29 13:40:52', '2025-10-29 13:40:52'),
-(9, 'Executive Classic', 'https://templates.jobhuntly.com/cv/executive-classic.html', 'https://templates.jobhuntly.com/previews/executive-classic.jpg', '2025-10-29 13:40:52', '2025-10-29 13:40:52'),
-(10, 'Fresh Graduate', 'https://templates.jobhuntly.com/cv/fresh-graduate.html', 'https://templates.jobhuntly.com/previews/fresh-graduate.jpg', '2025-10-29 13:40:52', '2025-10-29 13:40:52');
+(14, 'Template Job Find', 'https://res.cloudinary.com/drozptref/raw/upload/v1761931402/cv_templates/14/html', 'https://res.cloudinary.com/drozptref/image/upload/v1761931404/cv_templates/14/preview.png', '2025-10-31 17:23:21', '2025-10-31 17:23:25');
 
 -- --------------------------------------------------------
 
@@ -486,7 +477,7 @@ INSERT INTO `jobs` (`job_id`, `company_id`, `title`, `date_post`, `description`,
 (7, 5, 'Giáo viên tiếng Anh online', '2025-08-07', 'Dạy tiếng Anh cho học viên trực tuyến', '2025-12-31', 10000000, 16000000, 0, 'IELTS 7.0 trở lên', 'Linh hoạt thời gian', 'TP.HCM', 'inactive'),
 (8, 5, 'Điều dưỡng viên', '2025-08-08', 'Chăm sóc bệnh nhân', '2026-01-31', 9000000, 13000000, 0, 'Tốt nghiệp điều dưỡng', 'Phụ cấp ca đêm', 'TP.HCM', 'inactive'),
 (9, 3, 'Nhà thiết kế đồ họa', '2025-08-09', 'Thiết kế ấn phẩm truyền thông', '2026-03-31', 11000000, 17000000, 0, 'Thành thạo Photoshop', 'Môi trường sáng tạo', 'Đà Nẵng', 'inactive'),
-(10, 4, 'Kỹ sư sản xuất', '2025-08-10', 'Quản lý dây chuyền sản xuất', '2026-02-28', 15000000, 22000000, 0, 'Kinh nghiệm 3 năm sản xuất', 'Thưởng KPI', 'Hải Phòng', 'inactive');
+(10, 4, 'Kỹ sư sản xuất', '2025-10-10', 'Quản lý dây chuyền sản xuất', '2026-02-28', 15000000, 22000000, 0, 'Kinh nghiệm 3 năm sản xuất', 'Thưởng KPI', 'Hải Phòng', 'inactive');
 
 -- --------------------------------------------------------
 
@@ -3077,7 +3068,8 @@ CREATE TABLE `reports` (
 
 INSERT INTO `reports` (`report_id`, `report_type_id`, `user_id`, `description`, `create_at`, `reported_content_id`, `status`) VALUES
 (14, 0, 14, 'hhjihuj', '2025-10-30 14:56:14', 10, 'DONE'),
-(15, 0, 14, 'fjikaijiwji', '2025-10-22 20:22:21', 8, 'PROCESS');
+(15, 0, 14, 'fjikaijiwji', '2025-10-22 20:22:21', 8, 'PROCESS'),
+(16, 2, 12, 'test', '2025-10-31 18:19:48', 5, 'PROCESS');
 
 -- --------------------------------------------------------
 
@@ -3336,12 +3328,12 @@ INSERT INTO `soft_skills` (`soft_skill_id`, `profile_id`, `name`, `description`,
 
 CREATE TABLE `tickets` (
   `id` bigint NOT NULL,
-  `subject` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `from_email` varchar(320) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `customer_email` varchar(254) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `thread_id` varchar(512) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subject` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `from_email` varchar(320) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `customer_email` varchar(254) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `thread_id` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-  `status` enum('OPEN','PENDING','CLOSED') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'OPEN'
+  `status` enum('OPEN','PENDING','CLOSED') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'OPEN'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -3353,13 +3345,13 @@ CREATE TABLE `tickets` (
 CREATE TABLE `ticket_messages` (
   `id` bigint NOT NULL,
   `ticket_id` bigint NOT NULL,
-  `message_id` varchar(512) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `in_reply_to` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `from_email` varchar(320) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `message_id` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `in_reply_to` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `from_email` varchar(320) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `sent_at` timestamp(6) NULL DEFAULT CURRENT_TIMESTAMP(6),
-  `body_text` longtext COLLATE utf8mb4_unicode_ci,
-  `body_html` longtext COLLATE utf8mb4_unicode_ci,
-  `direction` enum('INBOUND','OUTBOUND') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'INBOUND'
+  `body_text` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `body_html` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `direction` enum('INBOUND','OUTBOUND') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'INBOUND'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -3371,14 +3363,14 @@ CREATE TABLE `ticket_messages` (
 CREATE TABLE `ticket_message_attachments` (
   `id` bigint NOT NULL,
   `ticket_message_id` bigint NOT NULL,
-  `filename` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `content_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `filename` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `content_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `size_bytes` bigint DEFAULT NULL,
-  `content_id` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `content_id` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `inline` tinyint(1) NOT NULL DEFAULT '0',
-  `storage_provider` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'CLOUDINARY',
-  `storage_public_id` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `storage_url` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `storage_provider` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'CLOUDINARY',
+  `storage_public_id` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `storage_url` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -3424,7 +3416,7 @@ INSERT INTO `users` (`user_id`, `city_id`, `role_id`, `full_name`, `email`, `pas
 (8, NULL, 3, 'Vũ Văn G', 'recruiter3@gmail.com', '$2a$12$eCoyVZC81XhJNz.pab6Qy.mhOxROxzzi6Y3V9m2d4.ZyPJn9mLsly', '0978901234', 'ACTIVE', NULL, NULL, 0, 0, 0, 1, '2025-10-28 15:01:54', '2025-10-28 15:02:34.731', NULL, NULL),
 (9, NULL, 3, 'Bùi Thị H', 'recruiter4@gmail.com', '$2a$12$eCoyVZC81XhJNz.pab6Qy.mhOxROxzzi6Y3V9m2d4.ZyPJn9mLsly', '0989012345', 'ACTIVE', NULL, NULL, 0, 0, 1, 1, '2025-10-28 15:01:54', '2025-10-28 15:02:34.731', NULL, NULL),
 (10, NULL, 2, 'Phan Văn I', 'candidate5@gmail.com', '$2a$12$eCoyVZC81XhJNz.pab6Qy.mhOxROxzzi6Y3V9m2d4.ZyPJn9mLsly', '0990123456', 'ACTIVE', NULL, NULL, 0, 0, 1, 1, '2025-10-27 15:01:54', '2025-10-31 09:46:42.395', NULL, NULL),
-(12, NULL, 1, 'Admin', 'admin123@gmail.com', '$2a$10$1e8zWGCNqcv.3J9jIv1s3ONq9yarhtZgtGcDuuNwXrRsHI83aB7..', '0123456789', 'ACTIVE', '', NULL, 0, 1, 0, 1, '2025-10-28 15:14:34', '2025-10-31 09:13:21.901', '2025-10-31 09:13:21.889', NULL),
+(12, NULL, 1, 'Admin', 'admin123@gmail.com', '$2a$10$1e8zWGCNqcv.3J9jIv1s3ONq9yarhtZgtGcDuuNwXrRsHI83aB7..', '0123456789', 'ACTIVE', '', NULL, 0, 1, 0, 1, '2025-10-28 15:14:34', '2025-10-31 15:57:27.213', '2025-10-31 15:57:27.184', NULL),
 (14, NULL, 2, 'Võ Nhật Hào', 'haovo@gmail.com', '$2a$10$hzowi16xujUGeBAcgVMake.tTR89KsRUrFgfwIEQ4wyJckx7Oep/6', '0334944908', 'ACTIVE', '1', NULL, 0, 1, 0, 1, '2025-10-29 15:59:05', '2025-10-31 09:46:53.284', '2025-10-31 08:30:32.915', NULL),
 (15, NULL, 3, 'Phạm Văn Phúc', 'phucpham@gmail.com', '$2a$10$8QAiyEEcz9Or7IymP5Fa/.5sp5i7NXPnJnzFo8PrQlei6kxUYCaG6', '0987612345', 'ACTIVE', '2', NULL, 0, 1, 0, 1, '2025-10-29 17:33:39', '2025-10-31 07:29:26.541', '2025-10-31 07:29:26.534', NULL);
 
@@ -3512,7 +3504,34 @@ INSERT INTO `user_sessions` (`session_id`, `user_id`, `session_family_id`, `pare
 (38, 15, 'a81384b8-d884-41b3-8e33-0806f368e260', NULL, NULL, 'd128eb4e870767f84d68c26f72354e5107c1956cc022757ca323c27104aa1a01', '2025-11-07 07:29:26.566', '2025-10-31 07:29:26.572', '2025-10-31 07:29:26.566', NULL, NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Chrome - Windows'),
 (39, 14, '90e90243-213e-441b-95d4-e8e7bd7dde7a', NULL, NULL, '55f7ddb1e81c78c277682caf7f2577b78be98672528d261501eb360896974e01', '2025-11-07 08:30:33.030', '2025-10-31 08:30:33.038', '2025-10-31 08:30:33.030', '2025-10-31 09:00:32.073', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Chrome - Windows'),
 (40, 12, '23d954dc-0368-4134-896a-a2ae177c71ef', NULL, NULL, 'f35a1d7d29b9f272f4d4ecc3eb69cf48d11bd44f7b66a7b91289ccd12d65b120', '2025-11-07 09:00:41.576', '2025-10-31 09:00:41.576', '2025-10-31 09:00:41.576', '2025-10-31 09:04:44.822', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Chrome - Windows'),
-(41, 12, '4c21370e-48cf-4b57-8504-a9b19fc5c7b5', NULL, NULL, 'c0f4d56b6f966b56654de90dd8ea6edf94be18bd4e6981ac8c80dc05963aa5b2', '2025-11-07 09:13:21.943', '2025-10-31 09:13:21.946', '2025-10-31 09:13:21.943', NULL, NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Chrome - Windows');
+(41, 12, '4c21370e-48cf-4b57-8504-a9b19fc5c7b5', NULL, NULL, 'c0f4d56b6f966b56654de90dd8ea6edf94be18bd4e6981ac8c80dc05963aa5b2', '2025-11-07 09:13:21.943', '2025-10-31 09:13:21.946', '2025-10-31 09:13:21.943', NULL, NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(42, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', NULL, 43, 'f15281bbaf2e033bf30a815d7c61fef1e15a4f59339e2879937fd59581c11479', '2025-11-07 15:57:27.269', '2025-10-31 15:57:27.272', '2025-10-31 18:01:19.818', '2025-10-31 18:01:19.818', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(43, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 42, 44, 'd4ea4d378f8c051f41ffd2f23c9cf8921adf97df5e3fd453e220f9822a087e9f', '2025-11-07 18:01:19.818', '2025-10-31 18:01:19.822', '2025-10-31 18:18:42.133', '2025-10-31 18:18:42.133', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(44, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 43, 45, '7fb5adb9a0b6373ce13a6e62ec09dd7a93c57087c301fa9483ebf4a3bc45b687', '2025-11-07 18:18:42.133', '2025-10-31 18:18:42.136', '2025-10-31 18:18:42.759', '2025-10-31 18:18:42.759', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(45, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 44, 46, 'fea9bde0526e8925283510a9e480d18897e16548cf188187cc63a7c1f4f666be', '2025-11-07 18:18:42.759', '2025-10-31 18:18:42.760', '2025-10-31 18:18:43.669', '2025-10-31 18:18:43.669', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(46, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 45, 47, '676a4f6ded6b89be44ee309ea91aefeb47927ca2fd39496f59ebf9ba7e014ff2', '2025-11-07 18:18:43.669', '2025-10-31 18:18:43.669', '2025-10-31 18:18:44.526', '2025-10-31 18:18:44.526', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(47, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 46, 48, '38c891e61663f2bd9f6d371d3498ba1b59f5f9ada1c8c61152ce24d4f5ba9c2b', '2025-11-07 18:18:44.526', '2025-10-31 18:18:44.526', '2025-10-31 18:18:45.061', '2025-10-31 18:18:45.061', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(48, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 47, 49, '9a54bcf2c589f2a874bb226f17bd93b59b015ba56acf190b512618e475bb3d0a', '2025-11-07 18:18:45.061', '2025-10-31 18:18:45.062', '2025-10-31 18:18:47.043', '2025-10-31 18:18:47.043', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(49, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 48, 50, 'ba6e76f4ce05ddbce421493d98c73cf47a47e42ae55bcaa0ea715b900b77dc19', '2025-11-07 18:18:47.043', '2025-10-31 18:18:47.043', '2025-10-31 18:18:49.062', '2025-10-31 18:18:49.062', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(50, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 49, 51, 'f507062199ef1ba073aa45c46c3cb93ea9c30443180997c66ebddc955447b40a', '2025-11-07 18:18:49.062', '2025-10-31 18:18:49.062', '2025-10-31 18:18:49.592', '2025-10-31 18:18:49.592', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(51, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 50, 52, '1d4f09dd8ae10ab163f75a1114b52d1f9e2faa4c6f62ab3339a7fb39fabbdcf5', '2025-11-07 18:18:49.592', '2025-10-31 18:18:49.592', '2025-10-31 18:18:50.200', '2025-10-31 18:18:50.200', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(52, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 51, 53, 'd569addb3c7219bc1e399ca2595010c5126f5357ce85763b12eaca9a20fae9fb', '2025-11-07 18:18:50.200', '2025-10-31 18:18:50.201', '2025-10-31 18:18:52.775', '2025-10-31 18:18:52.775', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(53, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 52, 54, 'c8e479445f3f744abb9ddff8f92e1c89c95e1b630c66f9da72a541902799a6aa', '2025-11-07 18:18:52.775', '2025-10-31 18:18:52.776', '2025-10-31 18:18:53.311', '2025-10-31 18:18:53.311', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(54, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 53, 55, 'd5ce0362469d6bc0c90d0998a73cfbd59bb198d3a2b47d1ff3f5b04ea5db5e54', '2025-11-07 18:18:53.311', '2025-10-31 18:18:53.311', '2025-10-31 18:18:56.405', '2025-10-31 18:18:56.405', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(55, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 54, 56, 'fc31e8d13422dfe34b7acf4b68db9d281828b6e529b6cb4f6a1be6d3edd4a4f6', '2025-11-07 18:18:56.405', '2025-10-31 18:18:56.405', '2025-10-31 18:18:58.272', '2025-10-31 18:18:58.272', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(56, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 55, 57, '3a3fb8b24df90e69ee2e65e74f739fccea19016cb7cd110adf093619416302f8', '2025-11-07 18:18:58.272', '2025-10-31 18:18:58.273', '2025-10-31 18:18:59.229', '2025-10-31 18:18:59.229', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(57, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 56, 58, '658dc94bd621a7e6f63c8944e67c65a52864c585b99dc7847d840b810e17ecc7', '2025-11-07 18:18:59.229', '2025-10-31 18:18:59.229', '2025-10-31 18:19:00.297', '2025-10-31 18:19:00.297', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(58, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 57, 59, 'e6a9b644e89a75b2ed4ba519354a2c63b6ca92235fe90681c54f49fd50fdf0e3', '2025-11-07 18:19:00.297', '2025-10-31 18:19:00.297', '2025-10-31 18:19:02.590', '2025-10-31 18:19:02.590', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(59, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 58, 60, 'c2f1a2f3943acaae6767090b3e745e0d0097a599d19d260b47fcb8d8cb4d7480', '2025-11-07 18:19:02.590', '2025-10-31 18:19:02.590', '2025-10-31 18:19:04.370', '2025-10-31 18:19:04.370', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(60, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 59, 61, '3b42a372de37425e5a2699f076bcad6a20bdfe7aba0d4e8ac5e1504e254e8f10', '2025-11-07 18:19:04.370', '2025-10-31 18:19:04.370', '2025-10-31 18:19:06.434', '2025-10-31 18:19:06.434', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(61, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 60, 62, '3315f405b4eab9304b82f3b8d276bde591ef2e37230f481a4f1e94d7ba19b65a', '2025-11-07 18:19:06.434', '2025-10-31 18:19:06.435', '2025-10-31 18:19:07.055', '2025-10-31 18:19:07.055', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(62, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 61, 63, 'e679e64facab642f4abbb717b6752332a02982734e961e2dbc54b820e82951db', '2025-11-07 18:19:07.055', '2025-10-31 18:19:07.055', '2025-10-31 18:19:13.527', '2025-10-31 18:19:13.527', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(63, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 62, 64, '87253cb34692da9237716636496431b45db703d920e8e9fa9ff26dfe886559e7', '2025-11-07 18:19:13.527', '2025-10-31 18:19:13.527', '2025-10-31 18:19:19.237', '2025-10-31 18:19:19.237', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(64, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 63, 65, 'e723dc9d2bfebdf96c9d7c4556973ac882c87a10606c136a8484d76e88741be0', '2025-11-07 18:19:19.237', '2025-10-31 18:19:19.237', '2025-10-31 18:19:20.376', '2025-10-31 18:19:20.376', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(65, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 64, 66, '2a64730f8f14f05ed76e03023ba756336a932c4bc88a055ed1c449165096e905', '2025-11-07 18:19:20.376', '2025-10-31 18:19:20.376', '2025-10-31 18:19:20.866', '2025-10-31 18:19:20.866', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(66, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 65, 67, '57e1882432eb918da17f718c5bef417aa1e00ec1996fe875e96671600e408803', '2025-11-07 18:19:20.866', '2025-10-31 18:19:20.866', '2025-10-31 18:19:21.269', '2025-10-31 18:19:21.269', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(67, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 66, 68, '175cc79fcf6b440e147252a116b4b8d6810e055f8cc91612e544e44c7dbfbc1c', '2025-11-07 18:19:21.269', '2025-10-31 18:19:21.269', '2025-10-31 18:19:21.566', '2025-10-31 18:19:21.566', NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows'),
+(68, 12, 'ca9e57eb-f040-4068-9881-d03be654dda1', 67, NULL, '224f5fdc975a66fe5b73b57ab3e07399a0e51b9624c092d856c8390aa0f00fd9', '2025-11-07 18:19:21.566', '2025-10-31 18:19:21.566', '2025-10-31 18:19:21.566', NULL, NULL, '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', 'Chrome - Windows');
 
 -- --------------------------------------------------------
 
@@ -3970,7 +3989,7 @@ ALTER TABLE `company_subscriptions`
 -- AUTO_INCREMENT cho bảng `cv_template`
 --
 ALTER TABLE `cv_template`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT cho bảng `edu`
@@ -4036,7 +4055,7 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT cho bảng `reports`
 --
 ALTER TABLE `reports`
-  MODIFY `report_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `report_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT cho bảng `report_type`
@@ -4102,7 +4121,7 @@ ALTER TABLE `user_one_time_tokens`
 -- AUTO_INCREMENT cho bảng `user_sessions`
 --
 ALTER TABLE `user_sessions`
-  MODIFY `session_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `session_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT cho bảng `work_experience`
