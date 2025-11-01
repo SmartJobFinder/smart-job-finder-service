@@ -1,7 +1,10 @@
 package com.jobhuntly.backend.dto.response;
 
+import com.jobhuntly.backend.entity.CompanySubscription;
 import lombok.*;
 
+import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.Set;
 
 @Getter
@@ -32,6 +35,8 @@ public class CompanyDto {
     private String mapEmbedUrl;
     private String avatar;
     private String avatarCover;
+    private OffsetDateTime createdAt;
+    private OffsetDateTime updatedAt;
 
     // Tên các category con
     private Set<String> categories;

@@ -1,9 +1,7 @@
 package com.jobhuntly.backend.service.impl;
 
 import com.jobhuntly.backend.dto.request.ApplicationRequest;
-import com.jobhuntly.backend.dto.response.ApplicationByUserResponse;
-import com.jobhuntly.backend.dto.response.ApplicationResponse;
-import com.jobhuntly.backend.dto.response.ApplyStatusResponse;
+import com.jobhuntly.backend.dto.response.*;
 import com.jobhuntly.backend.entity.Application;
 import com.jobhuntly.backend.entity.Job;
 import com.jobhuntly.backend.entity.User;
@@ -26,11 +24,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -71,6 +68,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 		// Để @PrePersist tự set "Applied"
 		app.setStatus(null);
+
+        app.setAttemptCount(1);
+        app.setLastUserActionAt(LocalDateTime.now());
 
 		// 1) Lưu trước để có appId (dùng cho public_id Cloudinary: applications/{appId}/cv)
 		applicationRepository.saveAndFlush(app);
@@ -289,5 +289,43 @@ public class ApplicationServiceImpl implements ApplicationService {
     public Set<Long> findAppliedJobIds(Long userId, Collection<Long> jobIds) {
         if (userId == null || jobIds == null || jobIds.isEmpty()) return Set.of();
         return new HashSet<>(applicationRepository.findAppliedJobIdsIn(userId, jobIds));
+    }
+
+    // Thêm method này vào class ApplicationServiceImpl
+
+    @Override
+    @Transactional(readOnly = true)
+    public MonthlyApplicationStatisticsResponse getMonthlyStatistics(int year, int month) {
+        // Validate input
+        if (year < 2000 || year > 2100) {
+            throw new IllegalArgumentException("Năm không hợp lệ");
+        }
+        if (month < 1 || month > 12) {
+            throw new IllegalArgumentException("Tháng phải từ 1 đến 12");
+        }
+
+        // Lấy dữ liệu thống kê từ repository
+        List<Object[]> dailyData = applicationRepository.countDailyApplicationsByMonth(year, month);
+
+        // Chuyển đổi dữ liệu
+        List<ApplicationStatisticsResponse> dailyStatistics = dailyData.stream()
+                .map(row -> ApplicationStatisticsResponse.builder()
+                        .date(row[0] instanceof LocalDate ? (LocalDate) row[0] :
+                                ((java.sql.Date) row[0]).toLocalDate())
+                        .count(((Number) row[1]).longValue())
+                        .build())
+                .collect(Collectors.toList());
+
+        // Tính tổng
+        long totalApplications = dailyStatistics.stream()
+                .mapToLong(ApplicationStatisticsResponse::getCount)
+                .sum();
+
+        return MonthlyApplicationStatisticsResponse.builder()
+                .year(year)
+                .month(month)
+                .totalApplications(totalApplications)
+                .dailyStatistics(dailyStatistics)
+                .build();
     }
 }

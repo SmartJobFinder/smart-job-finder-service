@@ -5,6 +5,7 @@ import com.jobhuntly.backend.dto.request.ApplicationStatusUpdateRequest;
 import com.jobhuntly.backend.dto.response.ApplicationByUserResponse;
 import com.jobhuntly.backend.dto.response.ApplicationResponse;
 import com.jobhuntly.backend.dto.response.ApplyStatusResponse;
+import com.jobhuntly.backend.dto.response.MonthlyApplicationStatisticsResponse;
 import com.jobhuntly.backend.security.SecurityUtils;
 import com.jobhuntly.backend.security.jwt.JwtUtil;
 import com.jobhuntly.backend.service.ApplicationService;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -102,4 +104,15 @@ public class ApplicationController {
 		return applicationService.updateStatusByStaff(userId, req.getApplicationId(), req.getStatus());
 	}
 
+    // Thêm endpoint này vào ApplicationController
+
+    @GetMapping(value = "/admin/statistics/monthly", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<MonthlyApplicationStatisticsResponse> getMonthlyStatistics(
+            @RequestParam int year,
+            @RequestParam int month
+    ) {
+        MonthlyApplicationStatisticsResponse statistics = applicationService.getMonthlyStatistics(year, month);
+        return ResponseEntity.ok(statistics);
+    }
 }

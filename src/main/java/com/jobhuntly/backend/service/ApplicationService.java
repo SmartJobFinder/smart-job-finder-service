@@ -4,6 +4,7 @@ import com.jobhuntly.backend.dto.request.ApplicationRequest;
 import com.jobhuntly.backend.dto.response.ApplicationByUserResponse;
 import com.jobhuntly.backend.dto.response.ApplicationResponse;
 import com.jobhuntly.backend.dto.response.ApplyStatusResponse;
+import com.jobhuntly.backend.dto.response.MonthlyApplicationStatisticsResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -27,4 +28,7 @@ public interface ApplicationService {
 
     ApplicationResponse updateStatusByStaff(Long userId, Long applicationId, String status);
     Set<Long> findAppliedJobIds(Long userId, Collection<Long> jobIds);
+
+    // Admin statistics
+    MonthlyApplicationStatisticsResponse getMonthlyStatistics(int year, int month);
 }
