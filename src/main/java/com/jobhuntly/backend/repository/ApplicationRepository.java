@@ -18,43 +18,43 @@ import java.util.Optional;
 
 public interface ApplicationRepository extends JpaRepository<Application, Long> {
 
-	@EntityGraph(attributePaths = { "job", "job.company" })
-	Page<Application> findAllByUser_Id(Long userId, Pageable pageable);
+    @EntityGraph(attributePaths = { "job", "job.company" })
+    Page<Application> findAllByUser_Id(Long userId, Pageable pageable);
 
-	Page<Application> findAllByJob_Id(Long jobId, Pageable pageable);
+    Page<Application> findAllByJob_Id(Long jobId, Pageable pageable);
 
-	// Lấy applications theo companyId (qua quan hệ job.company)
-	@EntityGraph(attributePaths = { "job", "job.company", "user" })
-	Page<Application> findAllByJob_Company_Id(Long companyId, Pageable pageable);
+    // Lấy applications theo companyId (qua quan hệ job.company)
+    @EntityGraph(attributePaths = { "job", "job.company", "user" })
+    Page<Application> findAllByJob_Company_Id(Long companyId, Pageable pageable);
 
-	boolean existsByUser_IdAndJob_Id(Long userId, Long jobId);
+    boolean existsByUser_IdAndJob_Id(Long userId, Long jobId);
 
-	Optional<Application> findByUser_IdAndJob_Id(Integer userId, Integer jobId);
+    Optional<Application> findByUser_IdAndJob_Id(Integer userId, Integer jobId);
 
-	boolean existsByUser_IdAndJob_Id(Long userId, Integer jobId);
+    boolean existsByUser_IdAndJob_Id(Long userId, Integer jobId);
 
-	Optional<Application> findByUser_IdAndJob_Id(Long userId, Long jobId);
+    Optional<Application> findByUser_IdAndJob_Id(Long userId, Long jobId);
 
-	// Khóa ghi để tránh race condition khi user re-apply cùng lúc nhiều request
-	@Lock(LockModeType.PESSIMISTIC_WRITE)
-	@Query("select a from Application a where a.user.id = :userId and a.job.id = :jobId")
-	Optional<Application> lockByUserAndJob(@Param("userId") Long userId, @Param("jobId") Long jobId);
+    // Khóa ghi để tránh race condition khi user re-apply cùng lúc nhiều request
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("select a from Application a where a.user.id = :userId and a.job.id = :jobId")
+    Optional<Application> lockByUserAndJob(@Param("userId") Long userId, @Param("jobId") Long jobId);
 
-	@Lock(LockModeType.PESSIMISTIC_WRITE)
-	@Query("select a from Application a where a.id = :id")
-	Optional<Application> lockById(@Param("id") Long id);
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("select a from Application a where a.id = :id")
+    Optional<Application> lockById(@Param("id") Long id);
 
-	// ---- Analytics ----
-	@Query("select count(a) from Application a where a.job.company.id = :companyId and a.createdAt >= :from")
-	long countByCompanyIdAndCreatedAtAfter(@Param("companyId") Long companyId, @Param("from") LocalDateTime from);
+    // ---- Analytics ----
+    @Query("select count(a) from Application a where a.job.company.id = :companyId and a.createdAt >= :from")
+    long countByCompanyIdAndCreatedAtAfter(@Param("companyId") Long companyId, @Param("from") LocalDateTime from);
 
-	@Query("select function('date', a.createdAt) as d, count(a) as c " +
-			"from Application a " +
-			"where a.job.company.id = :companyId and function('date', a.createdAt) between :fromDate and :toDate " +
-			"group by function('date', a.createdAt) order by function('date', a.createdAt)")
-	List<Object[]> countDailyByCompany(@Param("companyId") Long companyId,
-										 @Param("fromDate") LocalDate from,
-										 @Param("toDate") LocalDate to);
+    @Query("select function('date', a.createdAt) as d, count(a) as c " +
+            "from Application a " +
+            "where a.job.company.id = :companyId and function('date', a.createdAt) between :fromDate and :toDate " +
+            "group by function('date', a.createdAt) order by function('date', a.createdAt)")
+    List<Object[]> countDailyByCompany(@Param("companyId") Long companyId,
+                                       @Param("fromDate") LocalDate from,
+                                       @Param("toDate") LocalDate to);
 
     @Query(value = """
       select job_id 
@@ -63,4 +63,17 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
       """, nativeQuery = true)
     List<Long> findAppliedJobIdsIn(@Param("uid") Long userId, @Param("ids") Collection<Long> jobIds);
 
+    // ---- Admin Statistics ----
+    // Thống kê tổng số applications trong khoảng thời gian
+    @Query("select count(a) from Application a where a.createdAt between :startDate and :endDate")
+    long countByCreatedAtBetween(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+
+    // Thống kê số lượng applications theo từng ngày trong tháng
+    @Query("select function('date', a.createdAt) as date, count(a) as count " +
+            "from Application a " +
+            "where function('year', a.createdAt) = :year " +
+            "and function('month', a.createdAt) = :month " +
+            "group by function('date', a.createdAt) " +
+            "order by function('date', a.createdAt)")
+    List<Object[]> countDailyApplicationsByMonth(@Param("year") int year, @Param("month") int month);
 }
