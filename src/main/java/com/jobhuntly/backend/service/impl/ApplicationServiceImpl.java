@@ -72,6 +72,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 		// Để @PrePersist tự set "Applied"
 		app.setStatus(null);
 
+        app.setAttemptCount(1);
+        app.setLastUserActionAt(LocalDateTime.now());
+
 		// 1) Lưu trước để có appId (dùng cho public_id Cloudinary: applications/{appId}/cv)
 		applicationRepository.saveAndFlush(app);
 
