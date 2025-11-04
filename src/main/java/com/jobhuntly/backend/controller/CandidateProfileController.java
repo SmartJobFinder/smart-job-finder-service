@@ -37,4 +37,10 @@ public class CandidateProfileController {
         Long userId = SecurityUtils.getCurrentUserId();
         return ResponseEntity.ok(profileService.getCombinedProfile(userId));
     }
+
+    // ✨ Endpoint mới để lấy profile theo userId
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<CandidateProfileResponse> getCandidateProfileByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(candidateProfileService.getCandidateProfile(userId));
+    }
 }
