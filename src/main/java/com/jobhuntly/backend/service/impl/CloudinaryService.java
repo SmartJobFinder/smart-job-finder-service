@@ -59,7 +59,8 @@ public class CloudinaryService {
                         "resource_type", "image",
                         "overwrite", true,
                         "invalidate", true,
-                        "folder", "users/"
+                        "folder", "users/",
+                        "allowed_formats", "jpg,jpeg,png,webp,gif"
                 )
         );
         return toAsset(res);

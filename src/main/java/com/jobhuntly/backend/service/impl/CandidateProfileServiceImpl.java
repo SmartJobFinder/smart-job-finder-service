@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.HashSet;
 
 
@@ -38,7 +39,7 @@ public class CandidateProfileServiceImpl implements CandidateProfileService {
     @Transactional
     public CandidateProfileResponse updateCandidateProfile(Long userId, CandidateProfileRequest request) {
         CandidateProfile profile = profileDomainService.getOrCreateProfile(userId);
-        
+
         mapper.updateEntity(profile, request);
 
         User user = profile.getUser();
@@ -51,10 +52,21 @@ public class CandidateProfileServiceImpl implements CandidateProfileService {
 
         if (request.getAvatar() != null && !request.getAvatar().isEmpty()) {
             try {
+                // Log để debug
+                System.out.println("File name: " + request.getAvatar().getOriginalFilename());
+                System.out.println("File size: " + request.getAvatar().getSize());
+                System.out.println("Content type: " + request.getAvatar().getContentType());
+
                 String avatarUrl = cloudinaryService.uploadUserAvatar(userId, request.getAvatar()).secureUrl();
                 profile.setAvatar(avatarUrl);
+            } catch (IOException e) {
+                // In ra stack trace đầy đủ
+                e.printStackTrace();
+                throw new IllegalStateException("Upload avatar thất bại: " + e.getMessage(), e);
             } catch (Exception e) {
-                throw new IllegalStateException("Upload avatar thất bại.", e);
+                // Catch tất cả exception khác
+                e.printStackTrace();
+                throw new IllegalStateException("Lỗi không xác định khi upload: " + e.getMessage(), e);
             }
         }
 
