@@ -22,7 +22,7 @@ public class MailTemplateService {
         context.setVariable("buttonText", "Set password");
 
         context.setVariable("supportEmail", "pvp.1803ac@gmail.com");
-        context.setVariable("logoUrl", "https://res.cloudinary.com/dfbqhd5ht/image/upload/v1757058535/logo-title-white_yjzvvr.png");
+        context.setVariable("logoUrl", "https://res.cloudinary.com/drozptref/image/upload/v1763141075/a5w2casl3hpal7ee3wfz.png");
 
         return templateEngine.process("set-password-email", context);
     }
@@ -33,7 +33,7 @@ public class MailTemplateService {
         context.setVariable("resetLink", resetLink);
         context.setVariable("ttlText", ttlText);
         context.setVariable("supportEmail", "pvp.1803ac@gmail.com");
-        context.setVariable("logoUrl", "https://res.cloudinary.com/dfbqhd5ht/image/upload/v1757058535/logo-title-white_yjzvvr.png");
+        context.setVariable("logoUrl", "https://res.cloudinary.com/drozptref/image/upload/v1763141075/a5w2casl3hpal7ee3wfz.png");
 
         return templateEngine.process("reset-password-email", context);
     }

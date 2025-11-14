@@ -36,7 +36,7 @@ public class ReplyService {
     @Value("${app.brand.name:JobFind}")
     private String appName;
 
-    @Value("${app.brand.logo-url:https://res.cloudinary.com/dfbqhd5ht/image/upload/v1757058535/logo-title-white_yjzvvr.png}")
+    @Value("${app.brand.logo-url:https://res.cloudinary.com/drozptref/image/upload/v1763141075/a5w2casl3hpal7ee3wfz.png}")
     private String logoUrl;
 
     @Value("${mail.from.address:pvp.1803ac@gmail.com}")

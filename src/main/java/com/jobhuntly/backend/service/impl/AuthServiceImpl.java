@@ -399,7 +399,7 @@ public class AuthServiceImpl implements AuthService {
         context.setVariable("appName", "JobFind");
         context.setVariable("year", java.time.Year.now().toString());
         context.setVariable("supportEmail", "pvp.1803ac@gmail.com");
-        context.setVariable("logoUrl", "https://res.cloudinary.com/dfbqhd5ht/image/upload/v1757058535/logo-title-white_yjzvvr.png");
+        context.setVariable("logoUrl", "https://res.cloudinary.com/drozptref/image/upload/v1763141075/a5w2casl3hpal7ee3wfz.png");
 
         String htmlContent = templateEngine.process("activation-email", context);
         emailSender.send(user.getEmail(), "[JobFind] Activate your account", htmlContent);

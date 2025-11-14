@@ -38,7 +38,7 @@ public class MailServiceImpl implements MailService {
     @Value("${mail.support:pvp.1803ac@gmail.com}")
     private String supportEmail;
 
-    @Value("${mail.logo:https://res.cloudinary.com/dfbqhd5ht/image/upload/v1757058535/logo-title-white_yjzvvr.png}")
+    @Value("${mail.logo:https://res.cloudinary.com/drozptref/image/upload/v1763141075/a5w2casl3hpal7ee3wfz.png}")
     private String logoUrl;
 
     private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
