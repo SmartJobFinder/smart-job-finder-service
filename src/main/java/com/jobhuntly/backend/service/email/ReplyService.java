@@ -33,13 +33,13 @@ public class ReplyService {
 
     private final TemplateEngine templateEngine;
 
-    @Value("${app.brand.name:JobHuntly}")
+    @Value("${app.brand.name:JobFind}")
     private String appName;
 
     @Value("${app.brand.logo-url:https://res.cloudinary.com/dfbqhd5ht/image/upload/v1757058535/logo-title-white_yjzvvr.png}")
     private String logoUrl;
 
-    @Value("${mail.from.address:help.jobhuntly@gmail.com}")
+    @Value("${mail.from.address:pvp.1803ac@gmail.com}")
     private String supportEmail;
 
     @Transactional

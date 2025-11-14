@@ -313,7 +313,7 @@ public class AuthServiceImpl implements AuthService {
         String raw = oneTimeTokenService.issue(u, OneTimeTokenPurpose.SET_PASSWORD, activationTtl);
         String link = FRONTEND_HOST + "/password/set?setpw_token=" + raw;
         String html = mailTemplateService.renderSetPasswordEmail(link, ttlText(activationTtl));
-        emailSender.send(u.getEmail(), "[JobHuntly] Set your password", html);
+        emailSender.send(u.getEmail(), "[JobFind] Set your password", html);
     }
 
     @Override
@@ -344,7 +344,7 @@ public class AuthServiceImpl implements AuthService {
         String raw = oneTimeTokenService.issue(u, OneTimeTokenPurpose.RESET_PASSWORD, activationTtl);
         String link = FRONTEND_HOST + "/password/reset?reset_token=" + raw;
         String html = mailTemplateService.renderResetPasswordEmail(link, ttlText(activationTtl));
-        emailSender.send(u.getEmail(), "[JobHuntly] Reset your password", html);
+        emailSender.send(u.getEmail(), "[JobFind] Reset your password", html);
     }
 
     @Override
@@ -396,13 +396,13 @@ public class AuthServiceImpl implements AuthService {
         Context context = new Context();
         context.setVariable("activationLink", activationLink);
         context.setVariable("ttlText", ttlText);
-        context.setVariable("appName", "JobHuntly");
+        context.setVariable("appName", "JobFind");
         context.setVariable("year", java.time.Year.now().toString());
-        context.setVariable("supportEmail", "help.jobhuntly@gmail.com");
+        context.setVariable("supportEmail", "pvp.1803ac@gmail.com");
         context.setVariable("logoUrl", "https://res.cloudinary.com/dfbqhd5ht/image/upload/v1757058535/logo-title-white_yjzvvr.png");
 
         String htmlContent = templateEngine.process("activation-email", context);
-        emailSender.send(user.getEmail(), "[JobHuntly] Activate your account", htmlContent);
+        emailSender.send(user.getEmail(), "[JobFind] Activate your account", htmlContent);
     }
 
     private static String ttlText(Duration ttl) {
