@@ -15,13 +15,13 @@ public class MailTemplateService {
 
     public String renderSetPasswordEmail(String setPasswordLink, String ttlText) {
         Context context = new Context();
-        context.setVariable("appName", "JobHuntly");
+        context.setVariable("appName", "JobFind");
         context.setVariable("setPasswordLink", setPasswordLink);
         context.setVariable("ttlText", ttlText);
         context.setVariable("title", "Set your password");
         context.setVariable("buttonText", "Set password");
 
-        context.setVariable("supportEmail", "help.jobhuntly@gmail.com");
+        context.setVariable("supportEmail", "pvp.1803ac@gmail.com");
         context.setVariable("logoUrl", "https://res.cloudinary.com/dfbqhd5ht/image/upload/v1757058535/logo-title-white_yjzvvr.png");
 
         return templateEngine.process("set-password-email", context);
@@ -29,10 +29,10 @@ public class MailTemplateService {
 
     public String renderResetPasswordEmail(String resetLink, String ttlText) {
         Context context = new Context();
-        context.setVariable("appName", "JobHuntly");
+        context.setVariable("appName", "JobFind");
         context.setVariable("resetLink", resetLink);
         context.setVariable("ttlText", ttlText);
-        context.setVariable("supportEmail", "help.jobhuntly@gmail.com");
+        context.setVariable("supportEmail", "pvp.1803ac@gmail.com");
         context.setVariable("logoUrl", "https://res.cloudinary.com/dfbqhd5ht/image/upload/v1757058535/logo-title-white_yjzvvr.png");
 
         return templateEngine.process("reset-password-email", context);
