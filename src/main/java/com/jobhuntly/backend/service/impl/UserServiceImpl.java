@@ -4,6 +4,7 @@ import com.jobhuntly.backend.dto.request.UserRequest;
 import com.jobhuntly.backend.dto.response.HasCompanyResponse;
 import com.jobhuntly.backend.dto.response.UserDto;
 import com.jobhuntly.backend.entity.User;
+import com.jobhuntly.backend.exception.BadRequestException;
 import com.jobhuntly.backend.exception.ResourceNotFoundException;
 import com.jobhuntly.backend.mapper.RoleMapper;
 import com.jobhuntly.backend.mapper.UserMapper;
@@ -144,5 +145,17 @@ public class UserServiceImpl implements UserService {
         }
 
         return responseBuilder.build();
+    }
+
+    @Override
+    @Transactional
+    public void changePassword(Long userId, String oldPassword, String newPassword) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User không tồn tại với ID: " + userId));
+        if (user.getPasswordHash() == null || !passwordEncoder.matches(oldPassword, user.getPasswordHash())) {
+            throw new BadRequestException("Mật khẩu cũ không đúng");
+        }
+        user.setPasswordHash(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 }
