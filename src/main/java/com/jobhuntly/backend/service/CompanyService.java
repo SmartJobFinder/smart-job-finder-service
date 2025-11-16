@@ -15,20 +15,24 @@ public interface CompanyService {
     List<CompanyDto> getCompaniesByName(String name);
     List<CompanyDto> getCompaniesByNameOrCategory(String name, List<Long> categoryIds);
     List<LocationCompanyResponse> getAllDistinctLocations();
-    
+
     // Có phân trang
     Page<CompanyDto> getAllCompaniesWithPagination(int page, int size, String[] sort);
     Page<CompanyDto> getCompaniesByCategoriesWithPagination(List<Long> categoryIds, int page, int size, String[] sort);
     Page<CompanyDto> getCompaniesByLocationWithPagination(String location, int page, int size, String[] sort);
     Page<CompanyDto> getCompaniesByNameWithPagination(String name, int page, int size, String[] sort);
     Page<CompanyDto> getCompaniesByNameOrCategoryWithPagination(String name, List<Long> categoryIds, int page, int size, String[] sort);
-    
+
     // CRUD
     CompanyDto getCompanyById(Long id);
     CompanyDto getCompanyByUserId(Long userId);
-    
+
     CompanyDto createCompany(CompanyRequest companyRequest);
-    
+
     CompanyDto updateCompanyById(Long id, CompanyDto companyDto);
+
+    // ✅ THÊM METHOD MỚI
+    CompanyDto updateCompanyWithImages(Long id, CompanyRequest companyRequest);
+
     void deleteCompanyById(Long id);
 }
