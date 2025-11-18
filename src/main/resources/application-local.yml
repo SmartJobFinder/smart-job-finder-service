@@ -2,6 +2,15 @@ spring:
   config:
     import: optional:file:.env.local.properties
 
+  ai:
+    openai:
+      api-key: ${GEMINI_API_KEY}
+      chat:
+        base-url: https://generativelanguage.googleapis.com
+        completions-path: /v1beta/openai/chat/completions
+        options:
+          model: gemini-2.0-flash
+
   servlet:
     multipart:
       max-file-size: 10MB
