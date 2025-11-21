@@ -59,6 +59,12 @@ public class JobServiceImpl implements JobService {
 
         Job job = jobMapper.toEntity(request);
         job.setCompany(companyRef);
+        // ✅ DEBUG: Log scam data
+        System.out.println("========== SCAM DETECTION DATA ==========");
+        System.out.println("Scam Score: " + request.getScamScore());
+        System.out.println("Trust Label: " + request.getTrustLabel());
+        System.out.println("Scam Checked At: " + request.getScamCheckedAt());
+        System.out.println("=========================================");
 
         if (request.getCategoryNames() != null) {
             Set<Category> categories = loadExistingByNames(

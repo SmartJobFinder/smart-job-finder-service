@@ -19,6 +19,9 @@ public interface JobMapper {
     @Mapping(source = "levels",     target = "levelNames",    qualifiedByName = "toLevelNames")
     @Mapping(source = "workTypes",  target = "workTypeNames", qualifiedByName = "toWorkTypeNames")
     @Mapping(source = "wards",      target = "wards")
+    @Mapping(target = "scamScore", source = "scamScore")
+    @Mapping(target = "trustLabel", source = "trustLabel")
+    @Mapping(target = "scamCheckedAt", source = "scamCheckedAt")
     JobResponse toResponse(Job job);
 
 
@@ -68,7 +71,11 @@ public interface JobMapper {
             @Mapping(source = "skills",        target = "skillNames",       qualifiedByName = "toSkillNames"),
             @Mapping(source = "levels",        target = "levelNames",       qualifiedByName = "toLevelNames"),
             @Mapping(source = "workTypes",     target = "workTypeNames",    qualifiedByName = "toWorkTypeNames"),
-            @Mapping(source = "wards",         target = "wards",            qualifiedByName = "toWardBriefList")
+            @Mapping(source = "wards",         target = "wards",            qualifiedByName = "toWardBriefList"),
+
+            @Mapping(source = "scamScore",     target = "scamScore"),
+            @Mapping(source = "trustLabel",    target = "trustLabel"),
+            @Mapping(source = "scamCheckedAt", target = "scamCheckedAt")
     })
     JobResponse toResponseLite(Job job);
 
