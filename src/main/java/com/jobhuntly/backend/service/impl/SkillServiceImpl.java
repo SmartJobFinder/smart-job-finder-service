@@ -102,6 +102,12 @@ public class SkillServiceImpl implements SkillService {
         return skillMapper.toListSkill(skills);
     }
 
+    @Override
+    public List<SkillResponse> getAllSkills() {
+        List<Skill> skills = skillRepository.findAll();
+        return skillMapper.toListSkill(skills);
+    }
+
     private String normalize(String raw) {
         return raw == null ? "" : raw.trim().replaceAll("\\s+", " ");
     }
