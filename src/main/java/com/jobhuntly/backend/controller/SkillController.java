@@ -43,4 +43,14 @@ public class SkillController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+    @GetMapping
+    public ResponseEntity<List<SkillResponse>> getAllSkills() {
+        try {
+            List<SkillResponse> skills = skillService.getAllSkills();
+            return ResponseEntity.ok(skills);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }

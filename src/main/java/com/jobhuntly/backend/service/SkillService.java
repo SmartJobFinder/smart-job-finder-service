@@ -9,4 +9,5 @@ import java.util.List;
 public interface SkillService {
     SkillResponse createSkill(SkillRequest request);
     List<SkillResponse> getSkillsByCategoryName(String categoryName);
+    List<SkillResponse> getAllSkills();
 }
