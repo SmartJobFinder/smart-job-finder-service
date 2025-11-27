@@ -138,8 +138,11 @@ springdoc:
     path: /swagger-ui
     operationsSorter: method
     tagsSorter: alpha
+
+# Server Configuration
 server:
   port: 8082
+  address: 0.0.0.0  # Listen on all network interfaces (allows mobile connections)
 
 ai:
   service:

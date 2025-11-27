@@ -2,8 +2,6 @@ package com.jobhuntly.backend.dto.request;
 
 
 import lombok.Data;
-
-import java.sql.Date;
 import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;

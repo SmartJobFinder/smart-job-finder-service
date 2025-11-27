@@ -2,7 +2,6 @@ package com.jobhuntly.backend.controller;
 
 import com.jobhuntly.backend.repository.ApplicationRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
