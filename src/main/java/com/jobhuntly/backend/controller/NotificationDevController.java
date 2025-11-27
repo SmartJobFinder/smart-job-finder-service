@@ -1,6 +1,5 @@
 package com.jobhuntly.backend.controller;
 
-import com.jobhuntly.backend.security.SecurityUtils;
 import com.jobhuntly.backend.service.impl.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -2,13 +2,11 @@ package com.jobhuntly.backend.controller;
 
 import com.jobhuntly.backend.dto.request.SkillRequest;
 import com.jobhuntly.backend.dto.response.SkillResponse;
-import com.jobhuntly.backend.entity.Skill;
 import com.jobhuntly.backend.service.SkillService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
