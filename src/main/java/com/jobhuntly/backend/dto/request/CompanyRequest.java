@@ -27,7 +27,7 @@ public class CompanyRequest {
     private String twitterUrl;
     private String linkedinUrl;
     private String mapEmbedUrl;
-    
+
     // Files for upload
     private MultipartFile avatarFile;
     private MultipartFile avatarCoverFile;
@@ -35,7 +35,10 @@ public class CompanyRequest {
     // URLs (sẽ được set sau khi upload)
     private String avatar;
     private String avatarCover;
-    
+
     // ID các category con - Spring sẽ tự động bind từ FormData
     private Set<Long> categoryIds;
+
+    // ID các wards (phường/xã) của company
+    private Set<Long> wardIds;
 } 

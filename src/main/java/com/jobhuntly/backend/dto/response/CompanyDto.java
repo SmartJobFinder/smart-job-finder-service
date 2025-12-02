@@ -46,4 +46,8 @@ public class CompanyDto {
 
     // ID các category con
     private Set<Long> categoryIds;
+
+    // Wards của company
+    private Set<Long> wardIds;
+    private Set<String> wardNames;
 }
