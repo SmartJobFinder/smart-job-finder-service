@@ -3,6 +3,7 @@ package com.jobhuntly.backend.mapper;
 import com.jobhuntly.backend.dto.response.CompanyDto;
 import com.jobhuntly.backend.entity.Category;
 import com.jobhuntly.backend.entity.Company;
+import com.jobhuntly.backend.entity.Ward;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,11 +22,14 @@ public interface CompanyMapper {
     @Mapping(target = "categories", expression = "java(mapCategoryNames(company.getCategories()))")
     @Mapping(target = "parentCategories", expression = "java(mapParentCategoryNames(company.getCategories()))")
     @Mapping(target = "categoryIds", ignore = true)
+    @Mapping(target = "wardIds", ignore = true)
+    @Mapping(target = "wardNames", expression = "java(mapWardNames(company.getWards()))")
     CompanyDto toDto(Company company);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "categories", ignore = true)
+    @Mapping(target = "wards", ignore = true)
     Company toEntity(CompanyDto dto);
 
     List<CompanyDto> toDtoList(List<Company> companies);
@@ -33,6 +37,7 @@ public interface CompanyMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "categories", ignore = true)
+    @Mapping(target = "wards", ignore = true)
     void updateEntityFromDto(CompanyDto dto, @MappingTarget Company entity);
 
     // ===== Helpers =====
@@ -49,6 +54,13 @@ public interface CompanyMapper {
                 .map(Category::getParent)       // lấy category cha
                 .filter(Objects::nonNull)       // bỏ null
                 .map(Category::getName)     // lấy tên cha
+                .collect(Collectors.toSet());
+    }
+
+    default Set<String> mapWardNames(Set<Ward> wards) {
+        if (wards == null || wards.isEmpty()) return Collections.emptySet();
+        return wards.stream()
+                .map(Ward::getName)
                 .collect(Collectors.toSet());
     }
 

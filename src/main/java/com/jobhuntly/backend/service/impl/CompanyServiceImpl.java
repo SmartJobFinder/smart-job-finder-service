@@ -6,6 +6,7 @@ import com.jobhuntly.backend.dto.response.LocationCompanyResponse;
 import com.jobhuntly.backend.entity.Category;
 import com.jobhuntly.backend.entity.Company;
 import com.jobhuntly.backend.entity.User;
+import com.jobhuntly.backend.entity.Ward;
 import com.jobhuntly.backend.exception.ResourceNotFoundException;
 import com.jobhuntly.backend.mapper.CompanyMapper;
 import com.jobhuntly.backend.repository.CategoryRepository;
@@ -37,6 +38,7 @@ public class CompanyServiceImpl implements CompanyService {
     private final CategoryRepository categoryRepository;
     private final JobRepository jobRepository;
     private final CloudinaryService cloudinaryService;
+    private final com.jobhuntly.backend.repository.WardRepository wardRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -65,6 +67,13 @@ public class CompanyServiceImpl implements CompanyService {
                     .map(Category::getId)
                     .collect(Collectors.toSet()));
         }
+
+        // Trả về wardIds
+        if (company.getWards() != null) {
+            dto.setWardIds(company.getWards().stream()
+                    .map(Ward::getId)
+                    .collect(Collectors.toSet()));
+        }
         return dto;
     }
 
@@ -82,6 +91,13 @@ public class CompanyServiceImpl implements CompanyService {
         if (company.getCategories() != null) {
             dto.setCategoryIds(company.getCategories().stream()
                     .map(Category::getId)
+                    .collect(Collectors.toSet()));
+        }
+
+        // Trả về wardIds
+        if (company.getWards() != null) {
+            dto.setWardIds(company.getWards().stream()
+                    .map(Ward::getId)
                     .collect(Collectors.toSet()));
         }
         return dto;
@@ -137,6 +153,12 @@ public class CompanyServiceImpl implements CompanyService {
         if (companyRequest.getCategoryIds() != null && !companyRequest.getCategoryIds().isEmpty()) {
             Set<Category> cats = new HashSet<>(categoryRepository.findAllById(companyRequest.getCategoryIds()));
             entity.setCategories(cats);
+        }
+
+        // Set wards từ wardIds
+        if (companyRequest.getWardIds() != null && !companyRequest.getWardIds().isEmpty()) {
+            Set<Ward> wards = new HashSet<>(wardRepository.findAllById(companyRequest.getWardIds()));
+            entity.setWards(wards);
         }
 
         // 4. Lưu trước để có companyId (dùng cho upload ảnh)
@@ -224,11 +246,22 @@ public class CompanyServiceImpl implements CompanyService {
             existing.setCategories(cats); // replace toàn bộ set
         }
 
+        // Xử lý wards riêng (nếu có)
+        if (companyDto.getWardIds() != null) {
+            Set<Ward> wards = new java.util.HashSet<>(wardRepository.findAllById(companyDto.getWardIds()));
+            existing.setWards(wards); // replace toàn bộ set
+        }
+
         Company saved = companyRepository.save(existing);
         CompanyDto out = companyMapper.toDto(saved);
         if (saved.getCategories() != null) {
             out.setCategoryIds(saved.getCategories().stream()
                     .map(Category::getId)
+                    .collect(java.util.stream.Collectors.toSet()));
+        }
+        if (saved.getWards() != null) {
+            out.setWardIds(saved.getWards().stream()
+                    .map(Ward::getId)
                     .collect(java.util.stream.Collectors.toSet()));
         }
         return out;
@@ -305,6 +338,11 @@ public class CompanyServiceImpl implements CompanyService {
             if (company.getCategories() != null) {
                 dto.setCategoryIds(company.getCategories().stream()
                         .map(Category::getId)
+                        .collect(Collectors.toSet()));
+            }
+            if (company.getWards() != null) {
+                dto.setWardIds(company.getWards().stream()
+                        .map(Ward::getId)
                         .collect(Collectors.toSet()));
             }
         }
