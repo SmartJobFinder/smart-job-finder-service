@@ -68,9 +68,15 @@ public final class JobSpecifications {
     }
 
     private static Specification<Job> notExpired() {
-        return (root, cq, cb) -> cb.or(
-                cb.isNull(root.get("expiredDate")),
-                cb.greaterThanOrEqualTo(root.get("expiredDate"), LocalDate.now())
+        return (root, cq, cb) -> cb.and(
+                cb.or(
+                        cb.isNull(root.get("expiredDate")),
+                        cb.greaterThanOrEqualTo(root.get("expiredDate"), LocalDate.now())
+                ),
+                cb.or(
+                        cb.isNull(root.get("status")),
+                        cb.notEqual(cb.lower(root.get("status")), "draft")
+                )
         );
     }
 
