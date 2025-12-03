@@ -395,6 +395,8 @@ public class AuthServiceImpl implements AuthService {
         String ttlText = ttlText(activationTtl);
         Context context = new Context();
         context.setVariable("activationLink", activationLink);
+        // Cung cấp luôn mã kích hoạt để mobile app có thể dùng như OTP
+        context.setVariable("activationCode", raw);
         context.setVariable("ttlText", ttlText);
         context.setVariable("appName", "JobFind");
         context.setVariable("year", java.time.Year.now().toString());
