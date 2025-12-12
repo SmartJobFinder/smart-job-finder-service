@@ -4,6 +4,7 @@ import com.jobhuntly.backend.entity.CandidateProfile;
 import com.jobhuntly.backend.service.ProfileDomainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.jobhuntly.backend.entity.Edu;
 
 @Service
 @RequiredArgsConstructor
@@ -17,15 +18,23 @@ public class CVBuilderService {
 
         StringBuilder aboutMe = new StringBuilder();
 
-        if (profile.getFullName() != null && !profile.getFullName().isBlank()) {
-            aboutMe.append(profile.getFullName());
+        // FULLNAME lấy từ User
+        String fullName = profile.getUser() != null ? profile.getUser().getFullName() : null;
+        if (fullName != null && !fullName.isBlank()) {
+            aboutMe.append(fullName);
             if (profile.getTitle() != null && !profile.getTitle().isBlank()) {
                 aboutMe.append(" - ").append(profile.getTitle());
             }
         }
 
-        if (profile.getEducation() != null && !profile.getEducation().isBlank()) {
-            aboutMe.append(", ").append(profile.getEducation());
+        String education = profile.getEducations()
+                .stream()
+                .findFirst()
+                .map(Edu::getMajors)
+                .orElse(null);
+
+        if (education != null && !education.isBlank()) {
+            aboutMe.append(", ").append(education);
         }
 
         if (profile.getPersonalLink() != null && !profile.getPersonalLink().isBlank()) {
@@ -42,6 +51,7 @@ public class CVBuilderService {
 
         return aboutMe.toString().trim();
     }
+
 
     /**
      * Lấy profile theo userId và tạo aboutMe tổng quát
