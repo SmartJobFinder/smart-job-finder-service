@@ -189,6 +189,7 @@ public class AuthServiceImpl implements AuthService {
         StartSessionResult ss = sessionService.startSession(user, req, deviceLabelFromUA(req));
         authCookieService.setRefreshCookie(res, ss.refreshToken(), jwtUtil.getRefreshTtl());
         String access = jwtUtil.issueAccessToken(user);
+        System.out.println("Token " + access );
         authCookieService.setAccessCookie(res, access, jwtUtil.getAccessTtl());
 
         String avatar = candidateProfileRepo.findByUser_Id(user.getId())

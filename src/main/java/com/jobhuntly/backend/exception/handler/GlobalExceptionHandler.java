@@ -1,4 +1,5 @@
 package com.jobhuntly.backend.exception.handler;
+import lombok.extern.slf4j.Slf4j;
 
 import com.jobhuntly.backend.exception.AccountBannedException;
 import com.jobhuntly.backend.exception.GoogleAccountNeedsPasswordException;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 /**
  * Global API error handler that returns ApiError in a consistent shape.
  */
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -39,10 +41,11 @@ public class GlobalExceptionHandler {
                 message,
                 safePath(req),
                 code,
-                extra == null ? Map.of() : extra
+                (extra == null) ? new HashMap<>() : new HashMap<>(extra)
         );
         return ResponseEntity.status(status).body(body);
     }
+
 
     private String safePath(HttpServletRequest req) {
         try { return req.getRequestURI(); } catch (Exception e) { return ""; }
@@ -119,11 +122,13 @@ public class GlobalExceptionHandler {
         List<Map<String, Object>> fieldErrors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(fe -> Map.<String, Object>of(
-                        "field", fe.getField(),
-                        "message", fe.getDefaultMessage(),
-                        "rejectedValue", fe.getRejectedValue()
-                ))
+                .map(fe -> {
+                    Map<String, Object> m = new HashMap<>();
+                    m.put("field", fe.getField());
+                    m.put("message", fe.getDefaultMessage());
+                    m.put("rejectedValue", fe.getRejectedValue());
+                    return m;
+                })
                 .collect(Collectors.toList());
 
         Map<String, Object> extra = new HashMap<>();
@@ -140,10 +145,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiError> handleConstraintViolation(ConstraintViolationException ex, HttpServletRequest req) {
         List<Map<String, String>> violations = ex.getConstraintViolations()
                 .stream()
-                .map(v -> Map.of(
-                        "property", String.valueOf(v.getPropertyPath()),
-                        "message", v.getMessage()
-                ))
+                .map(v -> {
+                    Map<String, String> m = new HashMap<>();
+                    m.put("property", String.valueOf(v.getPropertyPath()));
+                    m.put("message", v.getMessage());
+                    return m;
+                })
                 .collect(Collectors.toList());
 
         return build(HttpStatus.UNPROCESSABLE_ENTITY,
@@ -193,12 +200,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleAny(Exception ex, HttpServletRequest req) {
-        // Tránh lộ chi tiết nội bộ ra ngoài. Log ex đầy đủ ở server.
+
+        // ✅ IN FULL STACKTRACE
+        log.error("Unhandled exception at {} {}", req.getMethod(), safePath(req), ex);
+
         return build(HttpStatus.INTERNAL_SERVER_ERROR,
                 "Internal server error.",
                 req,
                 "INTERNAL_ERROR",
-                Map.of());
+                null // ✅ đừng truyền Map.of()
+        );
     }
 
 
