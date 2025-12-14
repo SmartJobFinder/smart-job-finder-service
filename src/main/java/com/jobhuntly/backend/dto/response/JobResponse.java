@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -26,6 +27,16 @@ public class JobResponse {
     @JsonProperty("expired_date")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate expiredDate;
+
+    @JsonProperty("scam_score")
+    private Double scamScore;
+
+    @JsonProperty("trust_label")
+    private String trustLabel;
+
+    @JsonProperty("scam_checked_at")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime scamCheckedAt;
 
     private String description;
     private String requirements;

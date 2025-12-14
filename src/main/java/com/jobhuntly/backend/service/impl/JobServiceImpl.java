@@ -59,6 +59,12 @@ public class JobServiceImpl implements JobService {
 
         Job job = jobMapper.toEntity(request);
         job.setCompany(companyRef);
+        // ✅ DEBUG: Log scam data
+        System.out.println("========== SCAM DETECTION DATA ==========");
+        System.out.println("Scam Score: " + request.getScamScore());
+        System.out.println("Trust Label: " + request.getTrustLabel());
+        System.out.println("Scam Checked At: " + request.getScamCheckedAt());
+        System.out.println("=========================================");
 
         if (request.getCategoryNames() != null) {
             Set<Category> categories = loadExistingByNames(
@@ -294,7 +300,31 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public Page<JobResponse> listByCompany(Long companyId, Pageable pageable) {
-        return jobRepository.findByCompanyIdWithAssociations(companyId, pageable).map(jobMapper::toResponse);
+        Specification<Job> companySpec =
+                (root, query, cb) -> cb.equal(root.get("company").get("id"), companyId);
+
+        JobFilterRequest req = new JobFilterRequest();
+        req.setOnlyActive(true);
+
+        Specification<Job> spec = Specification.allOf(
+                companySpec,
+                JobSpecifications.build(req)
+        );
+
+        Page<Job> page = jobRepository.findAll(spec, pageable);
+        List<Long> ids = page.getContent().stream().map(Job::getId).toList();
+        if (ids.isEmpty()) return Page.empty(pageable);
+
+        List<Job> rich = jobRepository.findByIdIn(ids);
+        Map<Long, Job> byId = rich.stream().collect(Collectors.toMap(Job::getId, j -> j));
+
+        List<JobResponse> data = ids.stream()
+                .map(byId::get)
+                .filter(Objects::nonNull)
+                .map(jobMapper::toResponseLite)
+                .toList();
+
+        return new PageImpl<>(data, pageable, page.getTotalElements());
     }
 
     @Override

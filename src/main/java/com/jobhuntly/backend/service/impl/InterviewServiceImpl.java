@@ -157,7 +157,7 @@ public class InterviewServiceImpl implements InterviewService {
         interviewRepository.save(iv);
 
         // 2) Sinh room Jitsi ổn định theo UUID (khó đoán)
-        String room = "jobhuntly-" + UUID.randomUUID().toString();
+        String room = "jobfind-" + UUID.randomUUID().toString();
         String vcUrlFixed = "https://meet.jit.si/" + room;
 
         ZonedDateTime startAt = when.atZone(ZoneId.systemDefault());

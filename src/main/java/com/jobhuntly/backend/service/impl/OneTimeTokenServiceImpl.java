@@ -16,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Slf4j
 @Service
@@ -35,7 +36,15 @@ public class OneTimeTokenServiceImpl implements OneTimeTokenService {
         }
         tokenRepo.deleteActiveTokens(user.getId(), purpose);
 
-        String raw = TokenUtil.newUrlSafeToken(32);
+        // Với ACTIVATION, sinh mã OTP 6 chữ số cho thân thiện trên mobile.
+        // Các purpose khác (RESET_PASSWORD, SET_PASSWORD, ...) vẫn dùng token ngẫu nhiên dài.
+        String raw;
+        if (purpose == OneTimeTokenPurpose.ACTIVATION) {
+            int code = ThreadLocalRandom.current().nextInt(0, 1_000_000);
+            raw = String.format("%06d", code);
+        } else {
+            raw = TokenUtil.newUrlSafeToken(32);
+        }
         String hash = sha256Hex(raw);
 
         Instant now = Instant.now();

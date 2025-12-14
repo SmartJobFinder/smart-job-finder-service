@@ -1,15 +1,11 @@
 package com.jobhuntly.backend.repository;
 
-import com.jobhuntly.backend.entity.Application;
 import com.jobhuntly.backend.entity.Job;
-import jakarta.persistence.LockModeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 

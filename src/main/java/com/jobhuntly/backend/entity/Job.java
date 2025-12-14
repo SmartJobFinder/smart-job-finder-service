@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -58,6 +59,16 @@ public class Job {
     @Column(name = "status", length = 200)
     private String status;
 
+    // ✅ CHỈ THÊM 3 CỘT NÀY - ĐƠN GIẢN!
+    @Column(name = "scam_score")
+    private Double scamScore;  // Lưu scam probability từ AI (0.0 - 1.0)
+
+    @Column(name = "trust_label", length = 50)
+    private String trustLabel;  // WARNING, NORMAL, VERIFIED
+
+    @Column(name = "scam_checked_at")
+    private LocalDateTime scamCheckedAt;  // Thời điểm check
+
     @ManyToMany
     @JoinTable(
             name = "job_category",
@@ -66,11 +77,11 @@ public class Job {
     )
     private Set<Category> categories = new HashSet<>();
 
-     @ManyToMany
-     @JoinTable(name = "job_skill",
-        joinColumns = @JoinColumn(name = "job_id"),
-        inverseJoinColumns = @JoinColumn(name = "skill_id"))
-     private Set<Skill> skills = new HashSet<>();
+    @ManyToMany
+    @JoinTable(name = "job_skill",
+            joinColumns = @JoinColumn(name = "job_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id"))
+    private Set<Skill> skills = new HashSet<>();
 
     @ManyToMany
     @JoinTable(

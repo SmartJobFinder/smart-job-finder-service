@@ -1,5 +1,6 @@
 package com.jobhuntly.backend.controller;
 
+import com.jobhuntly.backend.dto.request.ChangePasswordRequest;
 import com.jobhuntly.backend.dto.request.UserRequest;
 import com.jobhuntly.backend.dto.response.HasCompanyResponse;
 import com.jobhuntly.backend.dto.response.UserDto;
@@ -74,5 +75,12 @@ public class UserController {
     public ResponseEntity<HasCompanyResponse> hasCompany() {
         HasCompanyResponse response = userService.hasCompany();
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<Void> changePassword(@RequestBody @Valid ChangePasswordRequest body) {
+        Long userId = SecurityUtils.getCurrentUserId();
+        userService.changePassword(userId, body.getOldPassword(), body.getNewPassword());
+        return ResponseEntity.ok().build();
     }
 }

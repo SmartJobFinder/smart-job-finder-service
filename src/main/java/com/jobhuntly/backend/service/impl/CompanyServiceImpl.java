@@ -6,6 +6,7 @@ import com.jobhuntly.backend.dto.response.LocationCompanyResponse;
 import com.jobhuntly.backend.entity.Category;
 import com.jobhuntly.backend.entity.Company;
 import com.jobhuntly.backend.entity.User;
+import com.jobhuntly.backend.entity.Ward;
 import com.jobhuntly.backend.exception.ResourceNotFoundException;
 import com.jobhuntly.backend.mapper.CompanyMapper;
 import com.jobhuntly.backend.repository.CategoryRepository;
@@ -37,6 +38,7 @@ public class CompanyServiceImpl implements CompanyService {
     private final CategoryRepository categoryRepository;
     private final JobRepository jobRepository;
     private final CloudinaryService cloudinaryService;
+    private final com.jobhuntly.backend.repository.WardRepository wardRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -65,6 +67,13 @@ public class CompanyServiceImpl implements CompanyService {
                     .map(Category::getId)
                     .collect(Collectors.toSet()));
         }
+
+        // Trả về wardIds
+        if (company.getWards() != null) {
+            dto.setWardIds(company.getWards().stream()
+                    .map(Ward::getId)
+                    .collect(Collectors.toSet()));
+        }
         return dto;
     }
 
@@ -82,6 +91,13 @@ public class CompanyServiceImpl implements CompanyService {
         if (company.getCategories() != null) {
             dto.setCategoryIds(company.getCategories().stream()
                     .map(Category::getId)
+                    .collect(Collectors.toSet()));
+        }
+
+        // Trả về wardIds
+        if (company.getWards() != null) {
+            dto.setWardIds(company.getWards().stream()
+                    .map(Ward::getId)
                     .collect(Collectors.toSet()));
         }
         return dto;
@@ -137,6 +153,12 @@ public class CompanyServiceImpl implements CompanyService {
         if (companyRequest.getCategoryIds() != null && !companyRequest.getCategoryIds().isEmpty()) {
             Set<Category> cats = new HashSet<>(categoryRepository.findAllById(companyRequest.getCategoryIds()));
             entity.setCategories(cats);
+        }
+
+        // Set wards từ wardIds
+        if (companyRequest.getWardIds() != null && !companyRequest.getWardIds().isEmpty()) {
+            Set<Ward> wards = new HashSet<>(wardRepository.findAllById(companyRequest.getWardIds()));
+            entity.setWards(wards);
         }
 
         // 4. Lưu trước để có companyId (dùng cho upload ảnh)
@@ -224,11 +246,22 @@ public class CompanyServiceImpl implements CompanyService {
             existing.setCategories(cats); // replace toàn bộ set
         }
 
+        // Xử lý wards riêng (nếu có)
+        if (companyDto.getWardIds() != null) {
+            Set<Ward> wards = new java.util.HashSet<>(wardRepository.findAllById(companyDto.getWardIds()));
+            existing.setWards(wards); // replace toàn bộ set
+        }
+
         Company saved = companyRepository.save(existing);
         CompanyDto out = companyMapper.toDto(saved);
         if (saved.getCategories() != null) {
             out.setCategoryIds(saved.getCategories().stream()
                     .map(Category::getId)
+                    .collect(java.util.stream.Collectors.toSet()));
+        }
+        if (saved.getWards() != null) {
+            out.setWardIds(saved.getWards().stream()
+                    .map(Ward::getId)
                     .collect(java.util.stream.Collectors.toSet()));
         }
         return out;
@@ -305,6 +338,11 @@ public class CompanyServiceImpl implements CompanyService {
             if (company.getCategories() != null) {
                 dto.setCategoryIds(company.getCategories().stream()
                         .map(Category::getId)
+                        .collect(Collectors.toSet()));
+            }
+            if (company.getWards() != null) {
+                dto.setWardIds(company.getWards().stream()
+                        .map(Ward::getId)
                         .collect(Collectors.toSet()));
             }
         }
@@ -409,6 +447,124 @@ public class CompanyServiceImpl implements CompanyService {
                     .collect(Collectors.toSet()));
         }
         
+        return dto;
+    }
+
+    @Override
+    @Transactional
+    public CompanyDto updateCompanyWithImages(Long id, CompanyRequest companyRequest) {
+        // 1. Tìm company hiện tại
+        Company existing = companyRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Company not found with ID: " + id));
+
+        // 2. Cập nhật các field cơ bản
+        if (companyRequest.getCompanyName() != null) {
+            existing.setCompanyName(companyRequest.getCompanyName());
+        }
+        if (companyRequest.getDescription() != null) {
+            existing.setDescription(companyRequest.getDescription());
+        }
+        if (companyRequest.getEmail() != null) {
+            existing.setEmail(companyRequest.getEmail());
+        }
+        if (companyRequest.getPhoneNumber() != null) {
+            existing.setPhoneNumber(companyRequest.getPhoneNumber());
+        }
+        if (companyRequest.getWebsite() != null) {
+            existing.setWebsite(companyRequest.getWebsite());
+        }
+        if (companyRequest.getAddress() != null) {
+            existing.setAddress(companyRequest.getAddress());
+        }
+        if (companyRequest.getLocationCity() != null) {
+            existing.setLocationCity(companyRequest.getLocationCity());
+        }
+        if (companyRequest.getLocationCountry() != null) {
+            existing.setLocationCountry(companyRequest.getLocationCountry());
+        }
+        if (companyRequest.getFoundedYear() != null) {
+            existing.setFoundedYear(companyRequest.getFoundedYear());
+        }
+        if (companyRequest.getQuantityEmployee() != null) {
+            existing.setQuantityEmployee(companyRequest.getQuantityEmployee());
+        }
+        if (companyRequest.getStatus() != null) {
+            existing.setStatus(companyRequest.getStatus());
+        }
+        if (companyRequest.getIsProCompany() != null) {
+            existing.setProCompany(companyRequest.getIsProCompany());
+        }
+        if (companyRequest.getFacebookUrl() != null) {
+            existing.setFacebookUrl(companyRequest.getFacebookUrl());
+        }
+        if (companyRequest.getTwitterUrl() != null) {
+            existing.setTwitterUrl(companyRequest.getTwitterUrl());
+        }
+        if (companyRequest.getLinkedinUrl() != null) {
+            existing.setLinkedinUrl(companyRequest.getLinkedinUrl());
+        }
+        if (companyRequest.getMapEmbedUrl() != null) {
+            existing.setMapEmbedUrl(companyRequest.getMapEmbedUrl());
+        }
+
+        // 3. Xử lý upload ảnh mới
+        MultipartFile avatarFile = companyRequest.getAvatarFile();
+        MultipartFile coverFile = companyRequest.getAvatarCoverFile();
+
+        if ((avatarFile != null && !avatarFile.isEmpty()) || (coverFile != null && !coverFile.isEmpty())) {
+            try {
+                // ✅ Xóa ảnh cũ trước khi upload ảnh mới
+                if (avatarFile != null && !avatarFile.isEmpty() && existing.getAvatar() != null) {
+                    try {
+                        cloudinaryService.deleteCompanyAvatar(existing.getId());
+                    } catch (Exception e) {
+                        System.err.println("Warning: Failed to delete old avatar: " + e.getMessage());
+                    }
+                }
+
+                if (coverFile != null && !coverFile.isEmpty() && existing.getAvatarCover() != null) {
+                    try {
+                        cloudinaryService.deleteCompanyCover(existing.getId());
+                    } catch (Exception e) {
+                        System.err.println("Warning: Failed to delete old cover: " + e.getMessage());
+                    }
+                }
+
+                // ✅ Upload ảnh mới - Sử dụng method đúng từ CloudinaryService
+                CloudinaryService.CompanyImageUploadResult result =
+                        cloudinaryService.uploadCompanyImages(existing.getId(), avatarFile, coverFile);
+
+                if (result.avatar() != null) {
+                    existing.setAvatar(result.avatar().secureUrl());
+                }
+                if (result.cover() != null) {
+                    existing.setAvatarCover(result.cover().secureUrl());
+                }
+            } catch (Exception e) {
+                throw new IllegalStateException("Failed to upload images: " + e.getMessage(), e);
+            }
+        }
+
+        // 4. Cập nhật categories nếu có
+        if (companyRequest.getCategoryIds() != null && !companyRequest.getCategoryIds().isEmpty()) {
+            Set<Category> categories = new HashSet<>(
+                    categoryRepository.findAllById(companyRequest.getCategoryIds())
+            );
+            existing.setCategories(categories);
+        }
+
+        // 5. Lưu và trả về
+        Company saved = companyRepository.save(existing);
+
+        CompanyDto dto = companyMapper.toDto(saved);
+        dto.setJobsCount(jobRepository.countJobsByCompanyId(saved.getId()));
+
+        if (saved.getCategories() != null) {
+            dto.setCategoryIds(saved.getCategories().stream()
+                    .map(Category::getId)
+                    .collect(Collectors.toSet()));
+        }
+
         return dto;
     }
 }

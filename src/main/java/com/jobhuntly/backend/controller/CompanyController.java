@@ -3,6 +3,7 @@ package com.jobhuntly.backend.controller;
 import com.jobhuntly.backend.dto.request.CompanyRequest;
 import com.jobhuntly.backend.dto.response.CompanyDto;
 import com.jobhuntly.backend.dto.response.LocationCompanyResponse;
+import com.jobhuntly.backend.exception.ResourceNotFoundException;
 import com.jobhuntly.backend.security.SecurityUtils;
 import com.jobhuntly.backend.service.CompanyService;
 import com.jobhuntly.backend.service.impl.CloudinaryService;
@@ -12,15 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -92,6 +85,25 @@ public class CompanyController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(updatedCompany, HttpStatus.OK);
+    }
+
+    // Update Company with Images (FormData)
+    @PatchMapping(value = "/{id}/with-images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<CompanyDto> updateCompanyWithImages(
+            @PathVariable("id") Long id,
+            @ModelAttribute CompanyRequest companyRequest) {
+        try {
+            CompanyDto updatedCompany = companyService.updateCompanyWithImages(id, companyRequest);
+            if (updatedCompany == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(updatedCompany, HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     // Create Company với ảnh - Sử dụng @ModelAttribute cho gọn

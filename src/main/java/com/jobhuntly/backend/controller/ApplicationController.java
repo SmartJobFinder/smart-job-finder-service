@@ -7,7 +7,6 @@ import com.jobhuntly.backend.dto.response.ApplicationResponse;
 import com.jobhuntly.backend.dto.response.ApplyStatusResponse;
 import com.jobhuntly.backend.dto.response.MonthlyApplicationStatisticsResponse;
 import com.jobhuntly.backend.security.SecurityUtils;
-import com.jobhuntly.backend.security.jwt.JwtUtil;
 import com.jobhuntly.backend.service.ApplicationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

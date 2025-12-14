@@ -16,4 +16,6 @@ public interface UserService {
     void deleteUserById(Long id);
     
     HasCompanyResponse hasCompany();
+    // Thêm vào bên dưới các method khác:
+    void changePassword(Long userId, String oldPassword, String newPassword);
 }

@@ -146,12 +146,11 @@ springdoc:
     path: /swagger-ui
     operationsSorter: method
     tagsSorter: alpha
+
+# Server Configuration
 server:
   port: 8082
-  error:
-    include-message: always
-    include-binding-errors: always
-    include-stacktrace: always   # ⚠️ chỉ dùng DEV
+  address: 0.0.0.0  # Listen on all network interfaces (allows mobile connections)
 
 ai:
   service:

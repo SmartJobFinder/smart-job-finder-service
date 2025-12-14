@@ -103,4 +103,13 @@ public class Company {
             inverseJoinColumns = @JoinColumn(name = "cate_id")
     )
     private Set<Category> categories = new HashSet<>();
+
+    // Many-to-Many relationship with Ward (ward_company)
+    @ManyToMany
+    @JoinTable(
+            name = "ward_company",
+            joinColumns = @JoinColumn(name = "company_id"),
+            inverseJoinColumns = @JoinColumn(name = "ward_id")
+    )
+    private Set<Ward> wards = new HashSet<>();
 }

@@ -1,7 +1,6 @@
 package com.jobhuntly.backend.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.StringTemplateResolver;
 
