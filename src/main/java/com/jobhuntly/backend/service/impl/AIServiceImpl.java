@@ -1,6 +1,11 @@
 package com.jobhuntly.backend.service.impl;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jobhuntly.backend.dto.request.InterviewStartRequest;
+import com.jobhuntly.backend.dto.request.ai.IntroRequest;
+import com.jobhuntly.backend.dto.request.ai.ObjectiveRequest;
+import com.jobhuntly.backend.dto.request.ai.SuitableSkillsRequest;
 import com.jobhuntly.backend.dto.response.InterviewAnswerResponse;
 import com.jobhuntly.backend.dto.response.InterviewStartResponse;
 import com.jobhuntly.backend.service.AIService;
@@ -14,7 +19,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -22,6 +29,7 @@ public class AIServiceImpl implements AIService {
 
     private final RestTemplate restTemplate;
     private final String aiServiceUrl;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public AIServiceImpl(
             RestTemplate restTemplate,
@@ -147,5 +155,93 @@ public class AIServiceImpl implements AIService {
         if (maybeRelative.startsWith("http://") || maybeRelative.startsWith("https://")) return maybeRelative;
         if (!maybeRelative.startsWith("/")) maybeRelative = "/" + maybeRelative;
         return aiServiceUrl + maybeRelative;
+    }
+
+    @Override
+    public String generateIntro(IntroRequest req) {
+        String url = aiServiceUrl + "/cv_intro";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<IntroRequest> entity = new HttpEntity<>(req, headers);
+
+        try {
+        ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+            String raw = response.getBody();
+            if (raw == null || raw.isBlank()) return "";
+
+            Map<String, Object> map = objectMapper.readValue(raw, Map.class);
+            Object intro = map.get("intro");
+            return intro != null ? intro.toString() : "";
+
+        } catch (HttpStatusCodeException e) {
+            throw new RuntimeException("AI error (intro): " + e.getResponseBodyAsString());
+        } catch (Exception e) {
+            throw new RuntimeException("AI connect error (intro): " + e.getMessage());
+        }
+    }
+
+
+    @Override
+    public String generateObjective(ObjectiveRequest req) {
+        String url = aiServiceUrl + "/cv_objective";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<ObjectiveRequest> entity = new HttpEntity<>(req, headers);
+
+        try {
+            ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+            return response.getBody();
+        } catch (HttpStatusCodeException e) {
+            throw new RuntimeException("AI error (objective): " + e.getResponseBodyAsString());
+        } catch (Exception e) {
+            throw new RuntimeException("AI connect error (objective): " + e.getMessage());
+        }
+    }
+
+    @Override
+    public List<String> generateSuitableSkills(SuitableSkillsRequest req) {
+        String url = aiServiceUrl + "/cv_suitable_skills";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<SuitableSkillsRequest> entity = new HttpEntity<>(req, headers);
+
+        try {
+            ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+            String body = response.getBody();
+
+            if (body == null || body.isBlank()) return Collections.emptyList();
+
+            return parseStringListJson(body);
+
+        } catch (HttpStatusCodeException e) {
+            throw new RuntimeException("AI error (skills): " + e.getResponseBodyAsString());
+        } catch (Exception e) {
+            throw new RuntimeException("AI connect error (skills): " + e.getMessage());
+        }
+    }
+
+    private List<String> parseStringListJson(String raw) {
+        try {
+            return objectMapper.readValue(raw, new TypeReference<List<String>>() {});
+        } catch (Exception ignore) {
+            // fallback: nếu AI lỡ trả kèm text, cố bắt [...] bên trong
+            int l = raw.indexOf('[');
+            int r = raw.lastIndexOf(']');
+            if (l >= 0 && r > l) {
+                String maybeJson = raw.substring(l, r + 1);
+                try {
+                    return objectMapper.readValue(maybeJson, new TypeReference<List<String>>() {});
+                } catch (Exception e2) {
+                    return Collections.emptyList();
+                }
+            }
+            return Collections.emptyList();
+        }
     }
 }

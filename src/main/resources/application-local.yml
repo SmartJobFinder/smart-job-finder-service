@@ -102,17 +102,6 @@ vnpay:
 logging:
   level:
     com.jobhuntly.backend.vnpay: DEBUG
-    org.springframework.web: DEBUG
-    org.springframework.web.servlet: DEBUG
-
-    org.springframework.http.converter.json: DEBUG
-    com.fasterxml.jackson.databind: DEBUG
-    com.fasterxml.jackson.core: DEBUG
-
-    org.springframework.web.client.RestTemplate: DEBUG
-    org.apache.http: DEBUG
-
-    reactor.netty.http.client: DEBUG
   host: ${BACKEND_HOST}
   prefix: ${BACKEND_PREFIX:/api/v1}
 
