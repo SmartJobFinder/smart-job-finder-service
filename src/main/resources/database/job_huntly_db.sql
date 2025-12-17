@@ -15,6 +15,7 @@ DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS majors;
 DROP TABLE IF EXISTS skills;
 DROP TABLE IF EXISTS saved_job;
+DROP TABLE IF EXISTS save_cv;
 DROP TABLE IF EXISTS reports;
 DROP TABLE IF EXISTS report_type;
 DROP TABLE IF EXISTS work_type;
@@ -163,6 +164,19 @@ Create table `saved_job`
     `user_id` INT NOT NULL,
     `job_id`  INT NOT NULL,
     Primary Key (`user_id`, `job_id`)
+);
+
+CREATE TABLE `save_cv`
+(
+    `save_cv_id`  BIGINT       NOT NULL AUTO_INCREMENT,
+    `user_id`     INT          NOT NULL,
+    `title`       VARCHAR(255) NOT NULL,
+    `content`     TEXT NULL,
+    `template`    VARCHAR(50)  NULL,
+    `is_default`  TINYINT(1)   DEFAULT 0,
+    `created_at`  DATETIME     DEFAULT CURRENT_TIMESTAMP,
+    `updated_at`  DATETIME     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`save_cv_id`)
 );
 
 
