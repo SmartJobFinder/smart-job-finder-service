@@ -1,14 +1,18 @@
-name: Spring Boot Gradle CI
+name: CI - Spring Boot (Gradle)
 
 on:
-  push:
-    branches: [ "test-cicd", "develop" ]
   pull_request:
-    branches: [ "main", "develop" ]
+    branches:
+      - main
+      - develop
+  push:
+    branches:
+      - main
+      - develop
 
 jobs:
   build:
-    name: Build & Test Spring Boot (Gradle)
+    name: Build & Test Spring Boot
     runs-on: ubuntu-latest
 
     steps:
@@ -24,21 +28,10 @@ jobs:
           java-version: 17
           cache: gradle
 
-      # 3. Grant execute permission for gradlew
+      # 3. Grant execute permission
       - name: Grant execute permission for Gradle Wrapper
-        run: chmod +x ./gradlew
+        run: chmod +x gradlew
 
-      # 4. Run tests
-      - name: Run tests
-        run: ./gradlew test
-
-      # 5. Build application
-      - name: Build application
-        run: ./gradlew build -x test
-
-      # 6. Upload JAR artifact
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: spring-boot-app
-          path: build/libs/*.jar
+      # 4. Build & Test
+      - name: Build and run tests
+        run: ./gradlew clean build
