@@ -4,11 +4,19 @@ on:
   pull_request:
     branches:
       - main
+      - dev/hao-vn
+      - test-cicd
       - develop
+      - phuc/backend-dev
+      - pkucpkam/dev
   push:
     branches:
       - main
+      - dev/hao-vn
+      - test-cicd
       - develop
+      - phuc/backend-dev
+      - pkucpkam/dev
 
 jobs:
   build:

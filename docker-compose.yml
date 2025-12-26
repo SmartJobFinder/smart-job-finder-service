@@ -1,0 +1,24 @@
+services:
+  redis:
+    image: redis:7
+    command:
+      ["redis-server", "--appendonly", "yes", "--requirepass", "jobfind123"]
+    networks:
+      - jobfind-network
+
+  job-find-backend:
+    image: nhathao512/job-find-backend:latest
+    container_name: jobfind-backend
+    env_file:
+      - .env
+    ports:
+      - "8082:8080"
+    networks:
+      - jobfind-network
+    depends_on:
+      - redis
+
+networks:
+  jobfind-network:
+    external: true
+    name: jobfind-network
