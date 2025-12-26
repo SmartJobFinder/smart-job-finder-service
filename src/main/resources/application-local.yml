@@ -16,7 +16,7 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
       enabled: true
-      
+
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
@@ -33,13 +33,13 @@ spring:
     redis:
       host: localhost
       port: 6379
-#      password: redis
+      #      password: redis
       timeout: 5s
     cache:
       type: redis
       redis:
         time-to-live: 10m
-        key-prefix: 'jh::'
+        key-prefix: "jh::"
         use-key-prefix: true
         cache-null-values: false
 
@@ -57,10 +57,18 @@ spring:
             enable: true
             required: true
 
-
 security:
   cors:
-    allowed-origins: [ "http://localhost:3000", "http://47.129.60.85:3000", "http://localhost:5173", "http://jobhuntly.io.vn", "https://jobhuntly.io.vn", "http://admin.jobhuntly.io.vn", "https://admin.jobhuntly.io.vn" ]
+    allowed-origins:
+      [
+        "http://localhost:3000",
+        "http://47.129.60.85:3000",
+        "http://localhost:5173",
+        "http://jobhuntly.io.vn",
+        "https://jobhuntly.io.vn",
+        "http://admin.jobhuntly.io.vn",
+        "https://admin.jobhuntly.io.vn",
+      ]
     allow-credentials: true
   jwt:
     secret: ${JWT_SECRET_KEY}
@@ -70,9 +78,9 @@ security:
   cookie:
     access-name: AT
     refresh-name: RT
-    domain: ""         # hoặc xoá dòng này đi
-    secure: false      # bỏ Secure khi HTTP
-    same-site: Lax     # cùng origin thì Lax là đủ
+    domain: "" # hoặc xoá dòng này đi
+    secure: false # bỏ Secure khi HTTP
+    same-site: Lax # cùng origin thì Lax là đủ
 
 google:
   client-id: ${GOOGLE_CLIENT_ID}
@@ -149,8 +157,8 @@ springdoc:
 
 # Server Configuration
 server:
-  port: 8082
-  address: 0.0.0.0  # Listen on all network interfaces (allows mobile connections)
+  port: 8080
+  address: 0.0.0.0 # Listen on all network interfaces (allows mobile connections)
 
 ai:
   service:
